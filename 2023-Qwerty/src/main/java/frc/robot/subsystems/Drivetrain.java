@@ -43,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
         m_rBackMot.follow(m_rFrontMot);
 
         m_rFrontMot.setInverted(true);
-        m_rBackMot.setInverted(false);
+        m_rBackMot.setInverted(true);
 
         //don't belive there is break mode
         //don't belive there is current limiting
