@@ -29,7 +29,7 @@ public class ArcadeDrive extends CommandBase {
 
         m_turn = m_joystick.getLeftX();
 
-        m_drivetrain.arcadeDrive(m_forwardSpeed * kDrivetrain.speedOffset, m_turn * kDrivetrain.speedOffset);
+        m_drivetrain.arcadeDrive(m_forwardSpeed * kDrivetrain.speedOffset, m_turn * kDrivetrain.speedTurnOffset);
     }
 
     // Returns true when the command should end.

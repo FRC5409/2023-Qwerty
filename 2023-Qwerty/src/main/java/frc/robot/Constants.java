@@ -22,5 +22,6 @@ public final class Constants {
         public static double rampRate = 0.5;
 
         public static double speedOffset = 0.5;
+        public static double speedTurnOffset = 0.7;
     }
 }
