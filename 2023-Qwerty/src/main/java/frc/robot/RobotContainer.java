@@ -10,8 +10,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.TurretTarget;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,6 +35,10 @@ public class RobotContainer {
   private final Drivetrain m_drivetrain;
   private final ArcadeDrive m_defaultDrive;
 
+  private final Limelight m_limelight;
+
+  private final JoystickButton bumper_left;
+
   public RobotContainer() {
     // Configure the button bindings
     m_joystick = new XboxController(0);
@@ -39,7 +46,9 @@ public class RobotContainer {
     m_drivetrain = new Drivetrain();
     m_defaultDrive = new ArcadeDrive(m_drivetrain, m_joystick);
 
+    m_limelight = new Limelight();
 
+    bumper_left = new JoystickButton(m_joystick, XboxController.Button.kLeftBumper.value);
 
 
     m_drivetrain.setDefaultCommand(m_defaultDrive);
@@ -53,7 +62,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    bumper_left.whenHeld(new TurretTarget(m_drivetrain, m_limelight));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
