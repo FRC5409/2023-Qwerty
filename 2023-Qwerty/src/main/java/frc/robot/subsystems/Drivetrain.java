@@ -45,12 +45,15 @@ public class Drivetrain extends SubsystemBase {
         m_rFrontMot.setInverted(true);
         m_rBackMot.setInverted(true);
 
-        //don't belive there is break mode
-        //don't belive there is current limiting
+        m_lFrontMot.configPeakCurrentLimit(kDrivetrain.currentLimit);
+        m_lBackMot.configPeakCurrentLimit(kDrivetrain.currentLimit);
+        m_rFrontMot.configPeakCurrentLimit(kDrivetrain.currentLimit);
+        m_rBackMot.configPeakCurrentLimit(kDrivetrain.currentLimit);
     }
 
 
     public void setMotRampRate(double rampRate) {
-        //no current ramprate I can find
+        m_lFrontMot.configClosedloopRamp(rampRate);
+        m_rFrontMot.configClosedloopRamp(rampRate);
     }
 }

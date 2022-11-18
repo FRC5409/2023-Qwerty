@@ -20,6 +20,8 @@ public final class Constants {
         public static int rightBackMotID = 4;
 
         public static double rampRate = 0.5;
+        
+        public static int currentLimit = 60;
 
         public static double speedOffset = 0.5;
         public static double speedTurnOffset = 0.7;
