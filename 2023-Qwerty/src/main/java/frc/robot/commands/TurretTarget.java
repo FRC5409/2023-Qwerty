@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.kDrivetrain;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
@@ -28,6 +29,9 @@ public class TurretTarget extends CommandBase {
     @Override
     public void execute() {
         double xOff = m_limelight.getXOffset();
+        if (Math.abs(xOff) >= kDrivetrain.targetPlay) {
+            m_drivetrain.arcadeDrive(0, (xOff / Math.abs(xOff)) * kDrivetrain.targetSpeed);
+        }
     }
 
     // Called once the command ends or is interrupted.
@@ -40,8 +44,7 @@ public class TurretTarget extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        
-        return false;
+        return false;//returning false because the command is ran when button is held
     }
 
 }
