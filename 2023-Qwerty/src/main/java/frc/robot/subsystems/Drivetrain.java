@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kDrivetrain;
 
@@ -27,6 +28,10 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void periodic() {
+        SmartDashboard.putNumber("Left Front Motor temp: ", m_lFrontMot.getTemperature());
+        SmartDashboard.putNumber("Right Front Motor temp: ", m_rFrontMot.getTemperature());
+        SmartDashboard.putNumber("Left Back Motor temp: ", m_lBackMot.getTemperature());
+        SmartDashboard.putNumber("Right Back Motor temp: ", m_rBackMot.getTemperature());
         
     }
 

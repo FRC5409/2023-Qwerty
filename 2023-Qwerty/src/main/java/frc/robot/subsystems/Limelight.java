@@ -32,6 +32,8 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("Limelight x offset: ", limeX);
         SmartDashboard.putNumber("Limelight target area: ", limeA);
         SmartDashboard.putBoolean("Can see target: ", (limeV == 1) ? true : false);//returning true of false depending on it its 0 or 1
+
+        SmartDashboard.putBoolean("Lime Light LED: ", true);
     }
 
     @Override
