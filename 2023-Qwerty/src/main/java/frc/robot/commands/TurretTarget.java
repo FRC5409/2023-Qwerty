@@ -22,22 +22,22 @@ public class TurretTarget extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_limelight.turnOnLight();
+        m_limelight.turnOnLight();//turning on limelight
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double xOff = m_limelight.getXOffset();
+        double xOff = m_limelight.getXOffset();//grabbing the offset of the target
         if (Math.abs(xOff) >= kDrivetrain.targetPlay) {
-            m_drivetrain.arcadeDrive(0, (xOff / Math.abs(xOff)) * kDrivetrain.targetSpeed);
+            m_drivetrain.arcadeDrive(0, (xOff / Math.abs(xOff)) * kDrivetrain.targetSpeed);//turning based on if its right or left
         }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_limelight.turnOffLight();
+        m_limelight.turnOffLight();//turns off limelight
         m_drivetrain.arcadeDrive(0, 0);
     }
 

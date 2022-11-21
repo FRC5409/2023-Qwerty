@@ -25,9 +25,9 @@ public class ArcadeDrive extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_forwardSpeed = m_joystick.getRightTriggerAxis() - m_joystick.getLeftTriggerAxis();
+        m_forwardSpeed = m_joystick.getRightTriggerAxis() - m_joystick.getLeftTriggerAxis();//getting different for addil drive
 
-        m_turn = m_joystick.getLeftX();
+        m_turn = m_joystick.getLeftX();//getting left joystick
 
         m_drivetrain.arcadeDrive(m_forwardSpeed * kDrivetrain.speedOffset, m_turn * kDrivetrain.speedTurnOffset);
     }

@@ -10,9 +10,9 @@ public class Limelight extends SubsystemBase {
 
     NetworkTable limeTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-    NetworkTableEntry limelightTx = limeTable.getEntry("Tx");
-    NetworkTableEntry limelightTa = limeTable.getEntry("Ta");
-    NetworkTableEntry limelightTv = limeTable.getEntry("Tv");
+    NetworkTableEntry limelightTx = limeTable.getEntry("Tx");//limelight offset x
+    NetworkTableEntry limelightTa = limeTable.getEntry("Ta");//Targeted area
+    NetworkTableEntry limelightTv = limeTable.getEntry("Tv");//can see a target
 
     //limelight LED state: 0 LED pipeline, 1: force off, 2: force blink, 3: force on
 
@@ -40,14 +40,14 @@ public class Limelight extends SubsystemBase {
     public void simulationPeriodic() {}
 
     public void turnOnLight() {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);//turning on limelight
     }
 
     public void turnOffLight() {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);//turning off limelight
     }
 
     public double getXOffset() {
-        return limelightTx.getDouble(0);
+        return limelightTx.getDouble(0);//getting the x offset of the target
     }
 }

@@ -14,19 +14,19 @@ package frc.robot;
  */
 public final class Constants {
     public static final class kDrivetrain {
-        public static int leftFrontMotID = 1;
-        public static int leftBackMotID = 2;
-        public static int rightFrontMotID = 3;
-        public static int rightBackMotID = 4;
+        public static int leftFrontMotID = 1;//CAN IDs
+        public static int leftBackMotID = 2;//CAN IDs
+        public static int rightFrontMotID = 3;//CAN IDs
+        public static int rightBackMotID = 4;//CAN IDs
 
-        public static double rampRate = 0.5;
+        public static double rampRate = 0.5;//seconds it take from 0 to full throtle
         
-        public static int currentLimit = 60;
+        public static int currentLimit = 60;//current limit in amps
 
-        public static double speedOffset = 0.5;
-        public static double speedTurnOffset = 0.7;
+        public static double speedOffset = 0.5;//limiting forward speed
+        public static double speedTurnOffset = 0.7;//limiting rotational speed
 
-        public static double targetSpeed = 0.5;
-        public static double targetPlay = 1;
+        public static double targetSpeed = 0.5;//the speed the robot turns at when targetting
+        public static double targetPlay = 1;//the amount the robot can differ from the target
     }
 }

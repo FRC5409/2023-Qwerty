@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.LimeLED;
 import frc.robot.commands.TurretTarget;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
@@ -63,7 +64,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    bumper_left.whenHeld(new TurretTarget(m_drivetrain, m_limelight));
+    bumper_left.whenHeld(new TurretTarget(m_drivetrain, m_limelight));//when held target
+    bumper_left.whenReleased(new LimeLED(m_limelight, false));//when released turn off limelight
   }
 
   /**
