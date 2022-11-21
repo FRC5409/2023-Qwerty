@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.net.http.HttpResponse.PushPromiseHandler;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -28,5 +30,7 @@ public final class Constants {
 
         public static double targetSpeed = 0.5;//the speed the robot turns at when targetting
         public static double targetPlay = 1;//the amount the robot can differ from the target
+
+        public static double scanningSpeed = 0.4;
     }
 }

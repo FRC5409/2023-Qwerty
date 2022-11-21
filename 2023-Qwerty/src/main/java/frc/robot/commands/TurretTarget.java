@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.kDrivetrain;
 import frc.robot.subsystems.Drivetrain;
@@ -29,8 +30,12 @@ public class TurretTarget extends CommandBase {
     @Override
     public void execute() {
         double xOff = m_limelight.getXOffset();//grabbing the offset of the target
-        if (Math.abs(xOff) >= kDrivetrain.targetPlay) {
-            m_drivetrain.arcadeDrive(0, (xOff / Math.abs(xOff)) * kDrivetrain.targetSpeed);//turning based on if its right or left
+        if (m_limelight.getVisable()) {
+            if (Math.abs(xOff) >= kDrivetrain.targetPlay) {
+                m_drivetrain.arcadeDrive(0, (xOff / Math.abs(xOff)) * kDrivetrain.targetSpeed);//turning based on if its right or left
+            }
+        } else {
+            m_drivetrain.arcadeDrive(0, m_limelight.getDir() * kDrivetrain.scanningSpeed);
         }
     }
 
