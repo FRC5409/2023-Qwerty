@@ -6,9 +6,9 @@ import frc.robot.subsystems.Limelight;
 public class LimeLED extends CommandBase {
 
     private final Limelight m_limelight;
-    private boolean LEDon;
+    private double LEDon;
 
-    public LimeLED(Limelight limelight, boolean on) {
+    public LimeLED(Limelight limelight, double on) {
         // Use addRequirements() here to declare subsystem dependencies.
         m_limelight = limelight;
         LEDon = on; 
@@ -20,10 +20,12 @@ public class LimeLED extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if (LEDon) {
+        if (LEDon == 1) {
             m_limelight.turnOnLight();
-        } else {
+        } else if (LEDon == 0) {
             m_limelight.turnOffLight();
+        } else if (LEDon == -1) {
+            m_limelight.toggle();
         }
     }
 
