@@ -38,7 +38,7 @@ public class RobotContainer {
 
   private final Limelight m_limelight;
 
-  private final JoystickButton bumper_left, yButton;
+  private final JoystickButton bumper_left;
 
   public RobotContainer() {
     // Configure the button bindings
@@ -50,9 +50,8 @@ public class RobotContainer {
     m_limelight = new Limelight();
 
     bumper_left = new JoystickButton(m_joystick, XboxController.Button.kLeftBumper.value);
-    yButton = new JoystickButton(m_joystick, XboxController.Button.kY.value);
 
-
+    
 
 
     m_drivetrain.setDefaultCommand(m_defaultDrive);
@@ -68,9 +67,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     bumper_left.whenHeld(new TurretTarget(m_drivetrain, m_limelight));//when held target
-    bumper_left.whenReleased(new LimeLED(m_limelight, 0));//when released turn off limelight
-
-    yButton.whenPressed(new LimeLED(m_limelight, -1));//toggles the limelight
+    bumper_left.whenReleased(new LimeLED(m_limelight, false));//when released turn off limelight
   }
 
   /**

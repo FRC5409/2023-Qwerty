@@ -20,8 +20,6 @@ public class Limelight extends SubsystemBase {
 
     XboxController m_joystick;
 
-    boolean isOn = false;
-
     //limelight LED state: 0 LED pipeline, 1: force off, 2: force blink, 3: force on
 
     //cam mode 0 for image processing
@@ -57,21 +55,11 @@ public class Limelight extends SubsystemBase {
     public void simulationPeriodic() {}
 
     public void turnOnLight() {
-        isOn = true;
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);//turning on limelight
     }
 
     public void turnOffLight() {
-        isOn = false;
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);//turning off limelight
-    }
-
-    public void toggle() {
-        if (isOn) {
-            turnOffLight();
-        } else {
-            turnOnLight();
-        }
     }
 
     public double getXOffset() {
