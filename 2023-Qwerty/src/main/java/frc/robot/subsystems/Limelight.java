@@ -8,12 +8,12 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
+    NetworkTableInstance inst;
+    NetworkTable limeTable;
 
-    NetworkTable limeTable = NetworkTableInstance.getDefault().getTable("limelight");
-
-    NetworkTableEntry limelightTx = limeTable.getEntry("Tx");//limelight offset x
-    NetworkTableEntry limelightTa = limeTable.getEntry("Ta");//Targeted area
-    NetworkTableEntry limelightTv = limeTable.getEntry("Tv");//can see a target
+    NetworkTableEntry limelightTx;// = limeTable.getEntry("Tx");;//limelight offset x
+    NetworkTableEntry limelightTa;// = limeTable.getEntry("Ta");//Targeted area
+    NetworkTableEntry limelightTv;// = limeTable.getEntry("Tv");//can see a target
 
     double turningDir = 1;
     double dpad;
@@ -26,6 +26,13 @@ public class Limelight extends SubsystemBase {
 
     public Limelight() {
         m_joystick = new XboxController(0);
+        inst = NetworkTableInstance.getDefault();
+        limeTable = inst.getTable("limelight");
+        inst.startClientTeam(5409);
+
+        limelightTx = limeTable.getEntry("Tx");;//limelight offset x
+        limelightTa = limeTable.getEntry("Ta");//Targeted area
+        limelightTv = limeTable.getEntry("Tv");//can see a target
     }
 
     @Override
@@ -40,15 +47,13 @@ public class Limelight extends SubsystemBase {
             }
         }
 
-        double limeX = limelightTx.getDouble(0);
-        double limeA = limelightTa.getDouble(0);
-        double limeV = limelightTv.getDouble(0);
+        double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(-1);
+        double a = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(-1);
+        double v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(-1);
 
-        SmartDashboard.putNumber("Limelight x offset: ", limeX);
-        SmartDashboard.putNumber("Limelight target area: ", limeA);
-        SmartDashboard.putBoolean("Can see target: ", (limeV == 1) ? true : false);//returning true of false depending on it its 0 or 1
-
-        SmartDashboard.putBoolean("Lime Light LED: ", true);
+        SmartDashboard.putNumber("Limelight x offset: ", x);
+        SmartDashboard.putNumber("Limelight target area: ", a);
+        SmartDashboard.putBoolean("Can see target: ", (v == 1) ? true : false);//returning true of false depending on it its 0 or 1
     }
 
     @Override
@@ -63,11 +68,11 @@ public class Limelight extends SubsystemBase {
     }
 
     public double getXOffset() {
-        return limelightTx.getDouble(0);//getting the x offset of the target
+        return limelightTx.getDouble(-1);//getting the x offset of the target
     }
 
     public boolean getVisable() {
-        if (limelightTv.getDouble(0) == 1) {
+        if (limelightTv.getDouble(-1) == 1) {
             return true;
         } else {
             return false;

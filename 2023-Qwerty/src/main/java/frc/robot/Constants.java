@@ -27,8 +27,8 @@ public final class Constants {
         public static double speedTurnOffset = 0.7;//limiting rotational speed
 
         public static double targetSpeed = 0.5;//the speed the robot turns at when targetting
-        public static double targetPlay = 1;//the amount the robot can differ from the target
+        public static double targetPlay = 4;//the amount the robot can differ from the target
 
-        public static double scanningSpeed = 0.4;
+        public static double scanningSpeed = 0.6;
     }
 }
