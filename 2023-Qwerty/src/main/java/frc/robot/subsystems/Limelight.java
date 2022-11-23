@@ -46,14 +46,20 @@ public class Limelight extends SubsystemBase {
                 turningDir = 1;
             }
         }
-
-        double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(-1);
-        double a = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(-1);
-        double v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(-1);
+        //try .exists in to see in shuffleboard if it can find the value or not
+        double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tx").getDouble(-1);//doesn't grab values returns -1
+        double a = NetworkTableInstance.getDefault().getTable("limelight").getEntry("Ta").getDouble(-1);//doesn't grab values returns -1
+        double v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tv").getDouble(-1);//doesn't grab values returns -1
 
         SmartDashboard.putNumber("Limelight x offset: ", x);
         SmartDashboard.putNumber("Limelight target area: ", a);
         SmartDashboard.putBoolean("Can see target: ", (v == 1) ? true : false);//returning true of false depending on it its 0 or 1
+
+        SmartDashboard.putBoolean("x exists?", NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tx").exists());
+        SmartDashboard.putBoolean("a exists?", NetworkTableInstance.getDefault().getTable("limelight").getEntry("Ta").exists());
+        SmartDashboard.putBoolean("v exists?", NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tv").exists());
+
+        SmartDashboard.putNumber("LedMode: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").getDouble(-1));
     }
 
     @Override
