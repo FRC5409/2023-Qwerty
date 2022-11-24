@@ -1,19 +1,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.kLimelight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
     NetworkTableInstance inst;
     NetworkTable limeTable;
-
-    NetworkTableEntry limelightTx;// = limeTable.getEntry("Tx");;//limelight offset x
-    NetworkTableEntry limelightTa;// = limeTable.getEntry("Ta");//Targeted area
-    NetworkTableEntry limelightTv;// = limeTable.getEntry("Tv");//can see a target
 
     double turningDir = 1;
     double dpad;
@@ -31,10 +27,7 @@ public class Limelight extends SubsystemBase {
         inst = NetworkTableInstance.getDefault();
         limeTable = inst.getTable("limelight");
         inst.startClientTeam(5409);
-
-        limelightTx = limeTable.getEntry("Tx");;//limelight offset x
-        // limelightTa = limeTable.getEntry("Ta");//Targeted area
-        limelightTv = limeTable.getEntry("Tv");//can see a target
+        turnOffLight();
     }
 
     @Override
@@ -48,14 +41,22 @@ public class Limelight extends SubsystemBase {
                 turningDir = 1;
             }
         }
-        //try .exists in to see in shuffleboard if it can find the value or not
-        double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(-1);//doesn't grab values returns -1
-        // double a = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(-1);//doesn't grab values returns -1
-        double v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(-1);//doesn't grab values returns -1
+        
+        double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(-1);
+        double y = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(-1);
+        double a = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(-1);
+        double v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(-1);
+
+        double angleGoal = (kLimelight.mountAngle + y) * (3.14159 / 180);
+
+        double distanceToTarget = (kLimelight.targetHeight - kLimelight.heightOffFloor) / Math.tan(angleGoal);
 
         SmartDashboard.putNumber("Limelight x offset: ", x);
-        // SmartDashboard.putNumber("Limelight target area: ", a);
+        SmartDashboard.putNumber("Limelight y offset: ", y);
+        SmartDashboard.putNumber("Limelight target area: ", a);
         SmartDashboard.putBoolean("Can see target: ", (v == 1) ? true : false);//returning true of false depending on it its 0 or 1
+
+        SmartDashboard.putNumber("Distance to target", distanceToTarget);
 
 
         SmartDashboard.putNumber("LedMode: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").getDouble(-1));
@@ -84,6 +85,10 @@ public class Limelight extends SubsystemBase {
 
     public double getXOffset() {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(-1);//getting the x offset of the target
+    }
+
+    public double getYOffset() {
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(-1);
     }
 
     public boolean getVisable() {

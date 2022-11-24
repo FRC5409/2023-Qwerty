@@ -31,4 +31,11 @@ public final class Constants {
 
         public static double scanningSpeed = 0.6;
     }
+
+    public static final class kLimelight {
+        public static double mountAngle = 45;
+        public static double targetHeight = 36;//inches
+        public static double heightOffFloor = 12;//inches
+
+    }
 }
