@@ -20,6 +20,8 @@ public class Limelight extends SubsystemBase {
 
     XboxController m_joystick;
 
+    boolean isOn = false;
+
     //limelight LED state: 0 LED pipeline, 1: force off, 2: force blink, 3: force on
 
     //cam mode 0 for image processing
@@ -31,7 +33,7 @@ public class Limelight extends SubsystemBase {
         inst.startClientTeam(5409);
 
         limelightTx = limeTable.getEntry("Tx");;//limelight offset x
-        limelightTa = limeTable.getEntry("Ta");//Targeted area
+        // limelightTa = limeTable.getEntry("Ta");//Targeted area
         limelightTv = limeTable.getEntry("Tv");//can see a target
     }
 
@@ -47,17 +49,14 @@ public class Limelight extends SubsystemBase {
             }
         }
         //try .exists in to see in shuffleboard if it can find the value or not
-        double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tx").getDouble(-1);//doesn't grab values returns -1
-        double a = NetworkTableInstance.getDefault().getTable("limelight").getEntry("Ta").getDouble(-1);//doesn't grab values returns -1
-        double v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tv").getDouble(-1);//doesn't grab values returns -1
+        double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(-1);//doesn't grab values returns -1
+        // double a = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(-1);//doesn't grab values returns -1
+        double v = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(-1);//doesn't grab values returns -1
 
         SmartDashboard.putNumber("Limelight x offset: ", x);
-        SmartDashboard.putNumber("Limelight target area: ", a);
+        // SmartDashboard.putNumber("Limelight target area: ", a);
         SmartDashboard.putBoolean("Can see target: ", (v == 1) ? true : false);//returning true of false depending on it its 0 or 1
 
-        SmartDashboard.putBoolean("x exists?", NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tx").exists());
-        SmartDashboard.putBoolean("a exists?", NetworkTableInstance.getDefault().getTable("limelight").getEntry("Ta").exists());
-        SmartDashboard.putBoolean("v exists?", NetworkTableInstance.getDefault().getTable("limelight").getEntry("Tv").exists());
 
         SmartDashboard.putNumber("LedMode: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").getDouble(-1));
     }
@@ -66,19 +65,29 @@ public class Limelight extends SubsystemBase {
     public void simulationPeriodic() {}
 
     public void turnOnLight() {
+        isOn = true;
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);//turning on limelight
     }
 
     public void turnOffLight() {
+        isOn = false;
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);//turning off limelight
     }
 
+    public void toggle() {
+        if (isOn) {
+            turnOffLight();
+        } else {
+            turnOnLight();
+        }
+    }
+
     public double getXOffset() {
-        return limelightTx.getDouble(-1);//getting the x offset of the target
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(-1);//getting the x offset of the target
     }
 
     public boolean getVisable() {
-        if (limelightTv.getDouble(-1) == 1) {
+        if (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(-1) == 1) {
             return true;
         } else {
             return false;

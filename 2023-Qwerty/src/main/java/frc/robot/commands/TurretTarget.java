@@ -41,14 +41,15 @@ public class TurretTarget extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_limelight.turnOffLight();//turns off limelight
+        // m_limelight.turnOffLight();//turns off limelight
         m_drivetrain.arcadeDrive(0, 0);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;//returning false because the command is ran when button is held
+        return false;
+        // return Math.abs(m_limelight.getXOffset()) < kDrivetrain.targetPlay && m_limelight.getVisable();//returning false because the command is ran when button is held
     }
 
 }
