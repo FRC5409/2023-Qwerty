@@ -37,5 +37,7 @@ public final class Constants {
         public static double targetHeight = 36;//inches
         public static double heightOffFloor = 12;//inches
 
+        public static double[] shooterDataX = {5, 10, 15, 20, 25, 30, 35};//distance to target
+        public static double[] shooterDataY = {10, 16, 24, 36, 48, 58, 70};//speed
     }
 }
