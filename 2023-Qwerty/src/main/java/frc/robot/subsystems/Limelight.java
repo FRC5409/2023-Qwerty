@@ -2,11 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kLimelight;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.io.Console;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -51,25 +48,30 @@ public class Limelight extends SubsystemBase {
         double a = getTargetArea();
         boolean v = getVisable();
 
+        //from limelight documentation
+
         double angleGoal = (kLimelight.mountAngle + y) * (3.14159 / 180);//getting the angle to the goal in radians (tan requires radians to work)
 
         distanceToTarget = (kLimelight.targetHeight - kLimelight.heightOffFloor) / Math.tan(angleGoal);//getting distance to target
 
+        //
+
         SmartDashboard.putNumber("Limelight x offset: ", x);
         SmartDashboard.putNumber("Limelight y offset: ", y);
         SmartDashboard.putNumber("Limelight target area: ", a);
-        SmartDashboard.putBoolean("Can see target: ", v);//returning true of false depending on it its 0 or 1
+        SmartDashboard.putBoolean("Can see target: ", v);
+        SmartDashboard.putBoolean("LedMode: ", isOn);
 
         SmartDashboard.putNumber("Distance to target", distanceToTarget);
-
-
-        SmartDashboard.putNumber("LedMode: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").getDouble(-1));
+        
 
 
         int index = closetPoint();
         try {
+            //returns a point based on the closest 2 points
             SmartDashboard.putNumber("Shooter speed: ", getInterpolatedSpeed(kLimelight.shooterDataX[index], kLimelight.shooterDataY[index], kLimelight.shooterDataX[index + 1], kLimelight.shooterDataY[index + 1], getTargetDistance()));
         } catch (Exception e) {
+            //if its outside the data use the highest point of data
             SmartDashboard.putNumber("Shooter speed: ", kLimelight.shooterDataY[index]);
         }
     }
@@ -135,6 +137,8 @@ public class Limelight extends SubsystemBase {
             if (Math.abs(kLimelight.shooterDataX[i] - dis) < closet) {
                 closet = Math.abs(kLimelight.shooterDataX[i] - dis);
                 index = i;
+            } else {
+                break;
             }
         }
         return index;
