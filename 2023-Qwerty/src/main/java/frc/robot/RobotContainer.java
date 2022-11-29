@@ -5,10 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,9 +25,21 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  //Attaching controller on port 0
+  private final Joystick m_controller = new Joystick(0);
+  private final JoystickButton button_A, bumper_Left, bumper_Right, trigger_Left, trigger_Right;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     // Configure the button bindings
+      //Digital
+    button_A = new JoystickButton(m_controller, XboxController.Button.kA.value);
+    bumper_Left = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+    bumper_Right = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+      //Analog
+    trigger_Left = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+    trigger_Right = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     configureButtonBindings();
   }
 
@@ -34,7 +49,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    //Binding controller inputs
+    //trigger_Left.whenPressed(ArcadeDrive());
+    //trigger_Right.whenPressed(ArcadeDrive());
+
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
