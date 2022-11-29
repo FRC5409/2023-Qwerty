@@ -27,17 +27,17 @@ public final class Constants {
         public static double speedTurnOffset = 0.7;//limiting rotational speed
 
         public static double targetSpeed = 0.5;//the speed the robot turns at when targetting
-        public static double targetPlay = 10;//the amount the robot can differ from the target
+        public static double targetPlay = 7;//the amount the robot can differ from the target
 
         public static double scanningSpeed = 0.6;
     }
 
     public static final class kLimelight {
         public static double mountAngle = 45;
-        public static double targetHeight = 36;//inches
-        public static double heightOffFloor = 12;//inches
+        public static double targetHeight = 40;//inches
+        public static double heightOffFloor = 9;//inches
 
-        public static double[] shooterDataX = {5, 10, 15, 20, 25, 30, 35};//distance to target
-        public static double[] shooterDataY = {10, 16, 24, 36, 48, 58, 70};//speed
+        public static double[] shooterDataX = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50};//distance to target
+        public static double[] shooterDataY = {10, 16, 24, 36, 48, 58, 70, 96, 104, 120};//speed
     }
 }
