@@ -23,7 +23,8 @@ public final class Constants {
         public static class Encoder{
             public static int countsPerRevolution = 0; //temp
         }
-    
-
-
+    }
+    public static class ControllerConfig{
+        public static int controllerPort = 0; 
+    }
 }

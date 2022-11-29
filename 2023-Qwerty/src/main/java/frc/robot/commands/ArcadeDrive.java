@@ -4,21 +4,24 @@
 
 package frc.robot.commands;
 
+import javax.sound.midi.ControllerEventListener;
+
 import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.Controller;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class ArcadeDrive extends CommandBase {
-  private final double m_joystickForward;
-  private final double m_joystickBackward;
-  private final double m_joystickTurn;
   private final Drivetrain m_diffDrivetrain;
-  //private final XboxController m_joystick;
+  private final XboxController m_controller;
 
-  public ArcadeDrive(ArcadeDrive arcadeDrive, XboxController controller) {
+  public ArcadeDrive(Drivetrain diffDrivetrain, XboxController controller) {
     //declaring sub system dependancy 
+    m_diffDrivetrain = diffDrivetrain;
+    m_controller = controller;
+
     addRequirements(m_diffDrivetrain);
   }
 
@@ -30,8 +33,12 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     //Retrieving controller inputs*
+    double m_joystickForward = m_controller.getRightTriggerAxis();
+    double m_joystickBackward = m_controller.getLeftTriggerAxis();
+    double m_joystickTurn = m_controller.getLeftX();
     
-    //Run Arcadedrive*
+    //Run Arcadedrive
+    m_diffDrivetrain.arcadeDrive(m_joystickForward, m_joystickBackward, m_joystickTurn);
 
   }
 

@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -20,19 +19,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
   //Attaching controller on port 0
-  private final Joystick m_controller = new Joystick(0);
+  private final XboxController m_controller;
   private final JoystickButton button_A, bumper_Left, bumper_Right, trigger_Left, trigger_Right;
+
+  private static ExampleCommand cmd_exampleCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
     // Configure the button bindings
+    m_controller = new XboxController(0);
       //Digital
     button_A = new JoystickButton(m_controller, XboxController.Button.kA.value);
     bumper_Left = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
@@ -40,6 +37,9 @@ public class RobotContainer {
       //Analog
     trigger_Left = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
     trigger_Right = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+
+    cmd_exampleCommand = new ExampleCommand();
+
     configureButtonBindings();
   }
 
@@ -64,6 +64,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return cmd_exampleCommand;
   }
 }

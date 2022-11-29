@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.nio.file.attribute.AclEntry;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -15,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-  private static final double countsPerRevolution = 1;
+  //private static final double countsPerRevolution = 1;
 
   //Creating Motor Objects
   WPI_TalonSRX m_frontLeftMotor = new WPI_TalonSRX(Constants.DrivetrainConst.CanID.frontLeftMotor_CAN); //*
@@ -25,7 +27,7 @@ public class Drivetrain extends SubsystemBase {
   WPI_TalonSRX m_rearRightMotor = new WPI_TalonSRX(Constants.DrivetrainConst.CanID.rearRightMotor_Can);
 
   //Creating differential drive object
-  //private DifferentialDrive m_differentialDrive;
+  private final DifferentialDrive m_differentialDrive;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -34,7 +36,7 @@ public class Drivetrain extends SubsystemBase {
     m_rearLeftMotor.follow(m_frontLeftMotor);
     m_rearRightMotor.follow(m_frontRightMotor);
 
-    DifferentialDrive m_differentialDrive = new DifferentialDrive(m_frontLeftMotor, m_frontRightMotor);
+    m_differentialDrive = new DifferentialDrive(m_frontLeftMotor, m_frontRightMotor);
 
     //Definoing motors
     //private final VictorSPX victorMotor_0 = new VictorSPX(0); //placeholder
@@ -54,5 +56,10 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void arcadeDrive(double accelerate, double decelerate, double turn) {
+    double xSpeed = accelerate - decelerate;
+    m_differentialDrive.arcadeDrive(xSpeed, turn);
   }
 }
