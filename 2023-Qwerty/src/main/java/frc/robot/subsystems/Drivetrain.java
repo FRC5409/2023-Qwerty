@@ -18,24 +18,23 @@ public class Drivetrain extends SubsystemBase {
   private static final double countsPerRevolution = 1;
 
   //Creating Motor Objects
-  WPI_TalonSRX m_frontLeftMotor = new WPI_TalonSRX(Constants.frontLeftMotor_CAN); //*
-  WPI_TalonSRX m_frontRightMotor = new WPI_TalonSRX(Constants.frontLeftMotor_CAN);
+  WPI_TalonSRX m_frontLeftMotor = new WPI_TalonSRX(Constants.DrivetrainConst.CanID.frontLeftMotor_CAN); //*
+  WPI_TalonSRX m_frontRightMotor = new WPI_TalonSRX(Constants.DrivetrainConst.CanID.frontLeftMotor_CAN);
 
-  WPI_TalonSRX m_rearLeftMotor = new WPI_TalonSRX(Constants.rearLeftMotor_CAN);
-  WPI_TalonSRX m_rearRightMotor = new WPI_TalonSRX(Constants.rearRightMotor_Can);
+  WPI_TalonSRX m_rearLeftMotor = new WPI_TalonSRX(Constants.DrivetrainConst.CanID.rearRightMotor_Can);
+  WPI_TalonSRX m_rearRightMotor = new WPI_TalonSRX(Constants.DrivetrainConst.CanID.rearRightMotor_Can);
 
   //Creating differential drive object
+  //private DifferentialDrive m_differentialDrive;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
     
     //setting up follow 
-    rearLeftMotor.follow(frontLeftMotor);
-    rearRightMotor.follow(frontRightMotor);
+    m_rearLeftMotor.follow(m_frontLeftMotor);
+    m_rearRightMotor.follow(m_frontRightMotor);
 
-    private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_frontLeftMotor, m_frontRightMotor);
-
-
+    DifferentialDrive m_differentialDrive = new DifferentialDrive(m_frontLeftMotor, m_frontRightMotor);
 
     //Definoing motors
     //private final VictorSPX victorMotor_0 = new VictorSPX(0); //placeholder
