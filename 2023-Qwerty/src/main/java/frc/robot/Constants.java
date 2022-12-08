@@ -15,16 +15,17 @@ package frc.robot;
 public final class Constants {
     public static class DrivetrainConst{
         public static class CanID{
-            public static int frontLeftMotor_CAN = 0;
-            public static int frontRightMotor_CAN = 1;
+            public static int frontLeftMotor_CAN = 1;
+            public static int frontRightMotor_CAN = 3;
             public static int rearLeftMotor_CAN = 2;
-            public static int rearRightMotor_Can = 3;
+            public static int rearRightMotor_CAN = 4;
         }
         public static class Encoder{
             public static int countsPerRevolution = 0; //temp
         }
     }
-    public static class ControllerConfig{
-        public static int controllerPort = 0; 
+    public static class ControlConfig{
+        public static int mainControllerPort = 0; 
+        public static boolean invertTurnOnReverse = false;
     }
 }
