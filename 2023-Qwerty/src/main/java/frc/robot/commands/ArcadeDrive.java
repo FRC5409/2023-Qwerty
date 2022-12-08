@@ -39,7 +39,6 @@ public class ArcadeDrive extends CommandBase {
     
     //Run Arcadedrive
     m_diffDrivetrain.arcadeDrive(m_joystickForward, m_joystickBackward, m_joystickTurn);
-
   }
 
   // Called once the command ends or is interrupted.

@@ -16,6 +16,8 @@ import org.opencv.features2d.FlannBasedMatcher;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -65,6 +67,12 @@ public class Drivetrain extends SubsystemBase {
       turn = -turn;
     }
     */
-    m_differentialDrive.arcadeDrive(xSpeed, turn);
+    driveShuffleBoard(xSpeed, turn);
+    m_differentialDrive.arcadeDrive(xSpeed, -turn);
   }
+
+  public void driveShuffleBoard(double xSpeed, double turn){
+    SmartDashboard.putNumber("Throttle", xSpeed);
+    SmartDashboard.putNumber("Turn", turn);
+  } 
 }
