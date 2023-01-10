@@ -9,7 +9,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
-    NetworkTableInstance inst;
     NetworkTable limeTable;
 
     double turningDir = 1;
