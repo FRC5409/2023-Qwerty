@@ -28,4 +28,8 @@ public final class Constants {
         public static int mainControllerPort = 0; 
         public static boolean invertTurnOnReverse = false;
     }
+    public static class CANdle{
+        public final static int CANdleCAN = 19; //
+        public final static int LEDCount = 8; //tbd 
+    }
 }
