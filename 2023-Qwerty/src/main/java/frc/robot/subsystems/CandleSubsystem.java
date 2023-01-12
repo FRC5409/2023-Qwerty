@@ -16,17 +16,24 @@ import com.ctre.phoenix.led.CANdle.LEDStripType;
 
 public class CandleSubsystem extends SubsystemBase {
   /** Creates a new CandleSubsystem. */
-  private final CANdle Candle;
+  private final CANdle candle;
 
   public CandleSubsystem() {
     //setting Candle CANID
-    Candle = new CANdle(Constants.CANdle.CANdleCAN);
+    candle = new CANdle(Constants.CANdle.CANdleCAN);
 
     CANdleConfiguration configCandle = new CANdleConfiguration();
     configCandle.stripType = LEDStripType.RGB;
     configCandle.brightnessScalar = 0.5;
-    Candle.configAllSettings(config);
+    candle.configAllSettings(configCandle);
   }
+
+  public void configBrightness(double brightness) {
+    CANdleConfiguration configCandle = new CANdleConfiguration();
+    configCandle.brightnessScalar = brightness; 
+    candle.configAllSettings(configCandle);   
+  } 
+
 
   @Override
   public void periodic() {

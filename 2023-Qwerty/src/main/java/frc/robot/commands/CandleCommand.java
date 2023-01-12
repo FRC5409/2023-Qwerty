@@ -9,25 +9,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CandleSubsystem;;
 
 public class CandleCommand extends CommandBase {
+  private final CandleSubsystem sys_candlesubystem;
+  private double brightness;
   /** Creates a new CandleCommand. */
-  private final CandleSubsystem m_candleSubsystem;
 
   public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness){
-      m_candleSubsystem = candleSubsystem;
-      m_candleSubsystem.configCandle.setBrightness(setBrightness); //* CREATE wrappers in order to access the candle configurator subsystem
-
-      addRequirements(candleSubsystem);
+      sys_candlesubystem = candleSubsystem; //* CREATE wrappers in order to access the candle configurator subsystem\
+      brightness = setBrightness;
+      addRequirements(sys_candlesubystem);
     }
-  }
-
-
-  public CandleCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    sys_candlesubystem.configBrightness(brightness);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
