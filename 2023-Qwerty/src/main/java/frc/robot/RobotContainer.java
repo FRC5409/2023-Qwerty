@@ -22,11 +22,16 @@ import frc.robot.subsystems.CandleSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final CandleSubsystem sys_candleSubsystem = new CandleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  private final ExampleCommand m_autoCommand;
+  private final CandleCommand sys_candleCommand;
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+    sys_candleCommand = new CandleCommand(sys_candleSubsystem, 1);
+
     // Configure the button bindings
     configureButtonBindings();
   }
