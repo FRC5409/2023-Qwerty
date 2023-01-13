@@ -32,6 +32,7 @@ public class CandleSubsystem extends SubsystemBase {
     CANdleConfiguration configCandle = new CANdleConfiguration();
     configCandle.brightnessScalar = brightness; 
     candle.configAllSettings(configCandle);   
+    System.out.print(brightness);
   } 
 
   public void setAnimation() {}
