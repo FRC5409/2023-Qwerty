@@ -12,18 +12,20 @@ public class CandleCommand extends CommandBase {
   private final CandleSubsystem sys_candlesubystem;
 
   private double brightness;
-  /** Creates a new CandleCommand. */
 
+  /** Creates a new CandleCommand. */
   public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness){
-      sys_candlesubystem = candleSubsystem; 
-      brightness = setBrightness;
-      addRequirements(sys_candlesubystem);
-    }
+    //Reconfiguring the brightness of the LED's
+    sys_candlesubystem = candleSubsystem; 
+    brightness = setBrightness;
+    addRequirements(sys_candlesubystem);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     sys_candlesubystem.configBrightness(brightness);
+    System.out.println(brightness);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +39,6 @@ public class CandleCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
