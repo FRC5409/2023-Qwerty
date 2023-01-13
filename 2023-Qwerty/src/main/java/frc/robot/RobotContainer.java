@@ -35,8 +35,18 @@ public class RobotContainer {
   private static ExampleCommand cmd_exampleCommand;
   private static ArcadeDrive cmd_arcadeDrive;
 
+  // The robot's subsystems and commands are defined here...
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final CandleSubsystem sys_candleSubsystem = new CandleSubsystem();
+
+  private final ExampleCommand m_autoCommand;
+  private final CandleCommand sys_candleCommand;
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+    sys_candleCommand = new CandleCommand(sys_candleSubsystem, 1);
+
     // Configure the button bindings
     m_controller = new XboxController(Constants.ControlConfig.mainControllerPort);
       //Digital
