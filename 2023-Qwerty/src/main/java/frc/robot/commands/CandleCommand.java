@@ -10,11 +10,12 @@ import frc.robot.subsystems.CandleSubsystem;;
 
 public class CandleCommand extends CommandBase {
   private final CandleSubsystem sys_candlesubystem;
+
   private double brightness;
   /** Creates a new CandleCommand. */
 
   public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness){
-      sys_candlesubystem = candleSubsystem; //* CREATE wrappers in order to access the candle configurator subsystem\
+      sys_candlesubystem = candleSubsystem; 
       brightness = setBrightness;
       addRequirements(sys_candlesubystem);
     }

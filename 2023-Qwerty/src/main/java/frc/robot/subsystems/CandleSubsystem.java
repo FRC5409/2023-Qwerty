@@ -24,7 +24,7 @@ public class CandleSubsystem extends SubsystemBase {
 
     CANdleConfiguration configCandle = new CANdleConfiguration();
     configCandle.stripType = LEDStripType.RGB;
-    configCandle.brightnessScalar = 0.5;
+    configCandle.brightnessScalar = 1;
     candle.configAllSettings(configCandle);
   }
 
@@ -34,6 +34,7 @@ public class CandleSubsystem extends SubsystemBase {
     candle.configAllSettings(configCandle);   
   } 
 
+  public void setAnimation() {}
 
   @Override
   public void periodic() {
