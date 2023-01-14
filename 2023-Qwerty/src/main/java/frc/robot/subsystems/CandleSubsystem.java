@@ -23,7 +23,7 @@ public class CandleSubsystem extends SubsystemBase {
     candle = new CANdle(Constants.CANdle.CANdleCAN);
 
     CANdleConfiguration configCandle = new CANdleConfiguration();
-    configCandle.stripType = LEDStripType.RGB;
+    configCandle.stripType = LEDStripType.GRBW;
     configCandle.brightnessScalar = 1;
     candle.configAllSettings(configCandle);
     candle.setLEDs(252, 144, 3);
