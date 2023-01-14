@@ -42,20 +42,22 @@ public class RobotContainer {
 
   //commands  
   private final ExampleCommand m_autoCommand;
-  private final CandleCommand sys_candleCommand;
+  //private final CandleCommand sys_candleCommand;
 
   //controller
   private final XboxController sys_controller;
   private final JoystickButton button_a, button_b;
 
-  private final CandleCommand cmd_candle = new CandleCommand(sys_candleSubsystem, 1);
-  private final CandleCommand cmd_candleDim = new CandleCommand(sys_candleSubsystem, .5);
+  private final CandleCommand cmd_candleYELLOW;
+  private final CandleCommand cmd_candleRED;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //commands
     m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-    sys_candleCommand = new CandleCommand(sys_candleSubsystem, 1);
+    //sys_candleCommand = new CandleCommand(sys_candleSubsystem, 1, 252, 144, 3);
+    cmd_candleRED = new CandleCommand(sys_candleSubsystem, 1, 255, 0, 0);
+    cmd_candleYELLOW = new CandleCommand(sys_candleSubsystem, 1, 252, 144, 3);
 
     //controller
     sys_controller = new XboxController(0);
@@ -97,8 +99,8 @@ public class RobotContainer {
     //CANdle
     //button_a.whenPressed(() -> sys_candleSubsystem.configBrightness(1));
     //button_b.whenPressed(() -> sys_candleSubsystem.configBrightness(.5));
-    button_a.whenPressed(cmd_candle);
-    button_b.whenPressed(cmd_candleDim);
+    button_a.whenPressed(cmd_candleYELLOW);
+    button_b.whenPressed(cmd_candleRED);
   }
 
   /**

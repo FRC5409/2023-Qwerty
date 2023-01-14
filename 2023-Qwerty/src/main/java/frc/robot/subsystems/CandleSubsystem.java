@@ -26,14 +26,21 @@ public class CandleSubsystem extends SubsystemBase {
     configCandle.stripType = LEDStripType.RGB;
     configCandle.brightnessScalar = 1;
     candle.configAllSettings(configCandle);
+    candle.setLEDs(252, 144, 3);
   }
 
   public void configBrightness(double brightness) {
-    CANdleConfiguration configCandle = new CANdleConfiguration();
-    configCandle.brightnessScalar = brightness; 
-    candle.configAllSettings(configCandle);   
-    System.out.print(brightness);
+    //CANdleConfiguration configCandle = new CANdleConfiguration();
+    //configCandle.brightnessScalar = brightness; 
+    //candle.configAllSettings(configCandle);   
+    candle.configBrightnessScalar(brightness);
+    System.out.printf("RGB brightness has been set to: %f%n", brightness);
   } 
+
+  public void configColor(int r, int g, int b) {
+    candle.setLEDs(r, g, b);
+    System.out.printf("RGB color has been set to: %d, %d, %d%n", r, g, b);
+  }
 
   public void setAnimation() {}
 

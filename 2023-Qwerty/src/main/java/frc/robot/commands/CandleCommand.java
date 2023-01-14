@@ -12,12 +12,16 @@ public class CandleCommand extends CommandBase {
   private final CandleSubsystem sys_candlesubystem;
 
   private double brightness;
+  private int RGB_R, RGB_G, RGB_B;
 
   /** Creates a new CandleCommand. */
-  public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness){
+  public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness, int r, int g, int b){
     //Reconfiguring the brightness of the LED's
     sys_candlesubystem = candleSubsystem; 
     brightness = setBrightness;
+    RGB_R = r;
+    RGB_G = g;
+    RGB_B = b;
     addRequirements(sys_candlesubystem);
   }
 
@@ -25,7 +29,7 @@ public class CandleCommand extends CommandBase {
   @Override
   public void initialize() {
     sys_candlesubystem.configBrightness(brightness);
-    System.out.println(brightness);
+    sys_candlesubystem.configColor(RGB_R, RGB_G, RGB_B);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
