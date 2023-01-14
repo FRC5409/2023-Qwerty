@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -14,6 +16,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CandleCommand;
 import frc.robot.subsystems.CandleSubsystem;
 
@@ -46,11 +49,18 @@ public class RobotContainer {
 
   //controller
   private final XboxController sys_controller;
-  private final JoystickButton button_a, button_b;
+  //private final JoystickButton button_a, button_b;
 
   private final CandleCommand cmd_candleYELLOW;
   private final CandleCommand cmd_candleRED;
-  
+
+  //Suppliers
+  private final BooleanSupplier dpadRight;
+  private final BooleanSupplier dpadLeft;
+
+  // Triggers
+  private final Trigger dpadRightTrigger, dpadLeftTrigger;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //commands
@@ -61,9 +71,17 @@ public class RobotContainer {
 
     //controller
     sys_controller = new XboxController(0);
-    button_a = new JoystickButton(sys_controller, XboxController.Button.kA.value);
-    button_b = new JoystickButton(sys_controller, XboxController.Button.kB.value);
+    //button_a = new JoystickButton(sys_controller, XboxController.Button.kA.value);
+    //button_b = new JoystickButton(sys_controller, XboxController.Button.kB.value);
 
+    dpadRight = () -> sys_controller.getPOV() == 90;
+    dpadLeft = () -> sys_controller.getPOV() == 270;
+
+    dpadRightTrigger = new Trigger(dpadRight)
+                .whenActive(cmd_candleYELLOW);
+    dpadLeftTrigger = new Trigger(dpadLeft)
+                .whenActive(cmd_candleRED);
+    
     // Configure the button bindings
     m_controller = new XboxController(Constants.ControlConfig.mainControllerPort);
       //Digital
@@ -97,10 +115,8 @@ public class RobotContainer {
     //trigger_Right.whenPressed(ArcadeDrive());
     
     //CANdle
-    //button_a.whenPressed(() -> sys_candleSubsystem.configBrightness(1));
-    //button_b.whenPressed(() -> sys_candleSubsystem.configBrightness(.5));
-    button_a.whenPressed(cmd_candleYELLOW);
-    button_b.whenPressed(cmd_candleRED);
+    //button_a.whenPressed(cmd_candleYELLOW);
+    //button_b.whenPressed(cmd_candleRED);
   }
 
   /**
