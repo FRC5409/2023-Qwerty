@@ -14,6 +14,8 @@ import frc.robot.commands.ArcadeDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.CandleSubsystem.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -40,8 +42,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   //subsystems
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final CandleSubsystem sys_candleSubsystem = new CandleSubsystem();
+  private final ExampleSubsystem m_exampleSubsystem;
+  private final CandleSubsystem sys_candleSubsystem;
 
   //commands  
   private final ExampleCommand m_autoCommand;
@@ -51,23 +53,35 @@ public class RobotContainer {
   private final XboxController sys_controller;
   //private final JoystickButton button_a, button_b;
 
-  private final CandleCommand cmd_candleYELLOW;
-  private final CandleCommand cmd_candleRED;
+  //private final CandleCommand cmd_candleYELLOW;
+  //private final CandleCommand cmd_candleRED;
+  //private final CandleCommand cmd_candleSTATIC;
 
   //Suppliers
   private final BooleanSupplier dpadRight;
   private final BooleanSupplier dpadLeft;
+  private final BooleanSupplier dpadUp;
 
   // Triggers
-  private final Trigger dpadRightTrigger, dpadLeftTrigger;
+  private final Trigger dpadRightTrigger, dpadLeftTrigger, dpadUpTrigger;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    //subsystems
+    sys_candleSubsystem = new CandleSubsystem();
+    m_exampleSubsystem = new ExampleSubsystem();
+
+
     //commands
     m_autoCommand = new ExampleCommand(m_exampleSubsystem);
     //sys_candleCommand = new CandleCommand(sys_candleSubsystem, 1, 252, 144, 3);
-    cmd_candleRED = new CandleCommand(sys_candleSubsystem, 1, 255, 0, 0);
-    cmd_candleYELLOW = new CandleCommand(sys_candleSubsystem, 1, 252, 144, 3);
+  
+    //cmd_candleRED = new CandleCommand(sys_candleSubsystem, .5, 255, 0, 0, AnimationTypes.ColorFlow);
+    //cmd_candleYELLOW = ;
+    //cmd_candleYELLOW = new ;
+
+    //cmd_candleSTATIC = ;
 
     //controller
     sys_controller = new XboxController(0);
@@ -76,11 +90,14 @@ public class RobotContainer {
 
     dpadRight = () -> sys_controller.getPOV() == 90;
     dpadLeft = () -> sys_controller.getPOV() == 270;
+    dpadUp = () -> sys_controller.getPOV() == 0;
 
     dpadRightTrigger = new Trigger(dpadRight)
-                .whenActive(cmd_candleYELLOW);
+                .whenActive(new CandleCommand(sys_candleSubsystem, .5, 252, 144, 3, AnimationTypes.ColorFlow), false);
     dpadLeftTrigger = new Trigger(dpadLeft)
-                .whenActive(cmd_candleRED);
+                .whenActive(new CandleCommand(sys_candleSubsystem, .5, 252, 144, 3, AnimationTypes.Rainbow), false);
+    dpadUpTrigger = new Trigger(dpadUp)
+                .whenActive(new CandleCommand(sys_candleSubsystem, .5, 255, 255, 255, AnimationTypes.Static), false);
     
     // Configure the button bindings
     m_controller = new XboxController(Constants.ControlConfig.mainControllerPort);
