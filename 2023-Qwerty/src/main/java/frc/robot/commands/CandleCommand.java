@@ -6,17 +6,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.CandleSubsystem;;
+import frc.robot.subsystems.CandleSubsystem;
+import frc.robot.subsystems.CandleSubsystem.AnimationTypes;;
 
 public class CandleCommand extends CommandBase {
   private final CandleSubsystem sys_candlesubystem;
 
   private double brightness;
   private int RGB_R, RGB_G, RGB_B;
+  private AnimationTypes sys_toChange; 
 
   /** Creates a new CandleCommand. */
-  public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness, int r, int g, int b){
+  public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness, int r, int g, int b, AnimationTypes tochange){
     //Reconfiguring the brightness of the LED's
+    sys_toChange = tochange;
     sys_candlesubystem = candleSubsystem; 
     brightness = setBrightness;
     RGB_R = r;
@@ -30,6 +33,7 @@ public class CandleCommand extends CommandBase {
   public void initialize() {
     sys_candlesubystem.configBrightness(brightness);
     sys_candlesubystem.configColor(RGB_R, RGB_G, RGB_B);
+    sys_candlesubystem.setAnimation(sys_toChange);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
