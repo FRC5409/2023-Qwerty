@@ -35,13 +35,13 @@ public class CandleSubsystem extends SubsystemBase {
 
   public CandleSubsystem() {
     //setting Candle CANID
-    candle = new CANdle(Constants.CANdle.CANdleCAN);
+    candle = new CANdle(Constants.CANdle.Config.CANdleCAN);
 
     CANdleConfiguration configCandle = new CANdleConfiguration();
     configCandle.stripType = LEDStripType.GRBW;
     configCandle.brightnessScalar = .5;
     candle.configAllSettings(configCandle);
-    candle.clearAnimation(0);
+    candle.animate(null, 0);
     //candle.setLEDs(252, 144, 3);
   }
 
@@ -61,18 +61,20 @@ public class CandleSubsystem extends SubsystemBase {
   public void setAnimation(AnimationTypes tochange) {
     switch(tochange){
       case Static: 
-        candle.clearAnimation(0);
-        candle.clearAnimation(1);
+        candle.animate(null, 0);
+        candle.animate(null, 1);
+        break;
       case Rainbow: 
-        rainbowAnimation = new RainbowAnimation(1, .5, Constants.CANdle.LEDCount);
-        candle.clearAnimation(0);
+        rainbowAnimation = new RainbowAnimation(1, .5, Constants.CANdle.Config.LEDCount);
+        candle.animate(null, 0);
         candle.animate(rainbowAnimation, 1);
+        break;
       case ColorFlow:
-        colorFlowAnimation = new ColorFlowAnimation(252, 144, 3, 0, .1, Constants.CANdle.LEDCount, Direction.Forward); 
-        candle.clearAnimation(1);
+        colorFlowAnimation = new ColorFlowAnimation(Constants.CANdle.Colors.yellow[0], Constants.CANdle.Colors.yellow[1], Constants.CANdle.Colors.yellow[2], 0, .1, Constants.CANdle.Config.LEDCount, Direction.Forward);
+        candle.animate(null, 1);
         candle.animate(colorFlowAnimation, 0);
+        break;
     }
-     
   }
 
   @Override
