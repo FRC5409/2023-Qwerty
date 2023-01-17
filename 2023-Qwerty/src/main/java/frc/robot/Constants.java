@@ -14,7 +14,13 @@ package frc.robot;
  */
 public final class Constants {
     public static class CANdle{
-        public final static int CANdleCAN = 19; //
-        public final static int LEDCount = 68; //tbd 
+        public static class Config {
+            public final static int CANdleCAN = 19; //
+            public final static int LEDCount = 68; //tbd
+        }
+        public static class Colors {
+            public final static int[] yellow = {252, 44 , 3};
+        }
+         
     }
 }
