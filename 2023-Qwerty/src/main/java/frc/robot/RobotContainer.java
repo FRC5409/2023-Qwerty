@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.CandleSubsystem.AnimationTypes;
+import frc.robot.Constants.kCANdle.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -36,16 +36,9 @@ public class RobotContainer {
 
   //controller
   private final XboxController sys_controller;
-  //private final JoystickButton button_a, button_b;
-
-  //private final CandleCommand cmd_candleYELLOW;
-  //private final CandleCommand cmd_candleRED;
-  //private final CandleCommand cmd_candleSTATIC;
 
   //Suppliers
-  private final BooleanSupplier dpadRight;
-  private final BooleanSupplier dpadLeft;
-  private final BooleanSupplier dpadUp;
+  private final BooleanSupplier dpadRight, dpadLeft, dpadUp;
 
   // Triggers
   private final Trigger dpadRightTrigger, dpadLeftTrigger, dpadUpTrigger;
@@ -60,29 +53,19 @@ public class RobotContainer {
 
     //commands
     m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-    //sys_candleCommand = new CandleCommand(sys_candleSubsystem, 1, 252, 144, 3);
-  
-    //cmd_candleRED = new CandleCommand(sys_candleSubsystem, .5, 255, 0, 0, AnimationTypes.ColorFlow);
-    //cmd_candleYELLOW = ;
-    //cmd_candleYELLOW = new ;
-
-    //cmd_candleSTATIC = ;
 
     //controller
     sys_controller = new XboxController(0);
-    //button_a = new JoystickButton(sys_controller, XboxController.Button.kA.value);
-    //button_b = new JoystickButton(sys_controller, XboxController.Button.kB.value);
-
     dpadRight = () -> sys_controller.getPOV() == 90;
     dpadLeft = () -> sys_controller.getPOV() == 270;
     dpadUp = () -> sys_controller.getPOV() == 0;
 
     dpadRightTrigger = new Trigger(dpadRight)
-                .whenActive(new CandleCommand(sys_candleSubsystem, .5, 252, 144, 3, AnimationTypes.ColorFlow), false);
+                .whenActive(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.ColorFlow), false);
     dpadLeftTrigger = new Trigger(dpadLeft)
-                .whenActive(new CandleCommand(sys_candleSubsystem, .5, 252, 144, 3, AnimationTypes.Rainbow), false);
+                .whenActive(new CandleCommand(sys_candleSubsystem, 0, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Clear), false);
     dpadUpTrigger = new Trigger(dpadUp)
-                .whenActive(new CandleCommand(sys_candleSubsystem, .5, 255, 255, 255, AnimationTypes.Static), false);
+                .whenActive(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static), false);
     
     // Configure the button bindings
     configureButtonBindings();
@@ -95,9 +78,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //CANdle
-    //button_a.whenPressed(cmd_candleYELLOW);
-    //button_b.whenPressed(cmd_candleRED);
   }
 
   /**
