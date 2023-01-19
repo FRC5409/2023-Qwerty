@@ -28,14 +28,25 @@ public final class Constants {
         public static int mainControllerPort = 0; 
         public static boolean invertTurnOnReverse = false;
     }
-    public static class CANdle{
-        public static class Config {
-            public final static int CANdleCAN = 19; //
-            public final static int LEDCount = 68; //tbd
+
+    public static class kCANdle{
+        public static class kConfig {
+            public final static int CANdleCAN = 19;
+            public final static int LEDCount = 68;
         }
-        public static class Colors {
-            public final static int[] yellow = {252, 44 , 3};
+        public static class kColors {
+            public final static int[] yellow = {252, 144 , 3};
+            public final static int[] red = {255, 0, 0};
+            public final static int[] green = {0, 255, 0};
         }
-         
+
+        public enum AnimationTypes{
+            Static,
+            Rainbow,
+            ColorFlow,
+            Larson,
+            Twinkle,
+            Clear
+        }
     }
 }
