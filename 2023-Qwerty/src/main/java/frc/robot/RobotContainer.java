@@ -14,7 +14,6 @@ import frc.robot.commands.ArcadeDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.Constants.kCANdle.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -42,11 +41,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   //subsystems
-  private final ExampleSubsystem m_exampleSubsystem;
-  private final CandleSubsystem sys_candleSubsystem;
+  private final CandleSubsystem sys_candleSubsystem; 
 
-  //commands  
-  private final ExampleCommand m_autoCommand;
   //private final CandleCommand sys_candleCommand;
 
   //controller
@@ -63,11 +59,8 @@ public class RobotContainer {
 
     //subsystems
     sys_candleSubsystem = new CandleSubsystem();
-    m_exampleSubsystem = new ExampleSubsystem();
-
 
     //commands
-    m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
     //controller
     sys_controller = new XboxController(0);
