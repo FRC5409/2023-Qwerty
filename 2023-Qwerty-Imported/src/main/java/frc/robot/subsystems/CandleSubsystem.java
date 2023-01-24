@@ -29,7 +29,7 @@ public class CandleSubsystem extends SubsystemBase {
   private LarsonAnimation larsonAnimation;
   private TwinkleAnimation twinkleAnimation;
 
-  private int currentAnimationSlot;
+  private int currentAnimationSlot = -1;
   
   private int animationTime = 0;
 
@@ -109,6 +109,11 @@ public class CandleSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     animationTime++;
+    if (currentAnimationSlot == -1) {
+      for (int i = 0; i < 5; i++) {
+        candle.animate(null, i);
+      }
+    }
     if (currentAnimationSlot == 5) {
       //update sin wave (not a sin funcction, Lex did a sin last year and so it should do the same just my way)
       double brightness = map(candle.getTemperature(), 0, 70, 1, 0, true);
