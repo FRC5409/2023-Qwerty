@@ -5,24 +5,17 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.led.CANdle;
-
-import edu.wpi.first.hal.CANData;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.kCANdle;
 import frc.robot.Constants.kCANdle.AnimationTypes;
-import pabeles.concurrency.ConcurrencyOps.NewInstance;
-
-import java.sql.Time;
-
-import javax.tools.ForwardingFileObject;
+import frc.robot.Constants.kCANdle.kColors;
 
 import com.ctre.phoenix.led.*;
-import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
-import com.ctre.phoenix.led.TwinkleOffAnimation.TwinkleOffPercent;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.TwinkleAnimation;
 
@@ -35,7 +28,9 @@ public class CandleSubsystem extends SubsystemBase {
   private LarsonAnimation larsonAnimation;
   private TwinkleAnimation twinkleAnimation;
 
-  private int currentAnimationSlot; 
+  private int currentAnimationSlot;
+  
+  private int animationTime = 0;
 
   public CandleSubsystem() {
     //setting Candle CANID
@@ -99,6 +94,11 @@ public class CandleSubsystem extends SubsystemBase {
         currentAnimationSlot = 4;
         configColor(0, 0, 0);
         candle.animate(twinkleAnimation, 4);
+        break;
+      case sinWave:
+        candle.animate(null, currentAnimationSlot);
+        currentAnimationSlot = 5;
+        break;
     }
     candle.setLEDs(0, 0, 0, 0, 0, 8);
   }
@@ -106,5 +106,17 @@ public class CandleSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    animationTime++;
+    if (currentAnimationSlot == 5) {
+      //update sin wave (not a sin funcction, Lex did a sin last year and so it should do the same just my way)
+      for (int i = 0; i < kCANdle.kConfig.LEDCount; i++) {
+        if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
+          candle.setLEDs(kColors.yellow[0], kColors.yellow[1], kColors.yellow[2], 0, i, 1);
+        } else {
+          candle.setLEDs(0, 0, 0, 0, i, 1);
+
+        }
+      }
+    }
   }
 }

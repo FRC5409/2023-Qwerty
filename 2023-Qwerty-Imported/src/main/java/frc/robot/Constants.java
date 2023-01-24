@@ -39,6 +39,8 @@ public final class Constants {
             public final static int[] yellow = {252, 144 , 3};
             public final static int[] red = {255, 0, 0};
             public final static int[] green = {0, 255, 0};
+
+            public final static int LEDSinCount = 6;
         }
 
         public enum AnimationTypes{
@@ -47,7 +49,8 @@ public final class Constants {
             ColorFlow,
             Larson,
             Twinkle,
-            Clear
+            Clear,
+            sinWave
         }
     }
 }
