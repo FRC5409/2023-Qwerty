@@ -40,7 +40,8 @@ public final class Constants {
             public final static int[] red = {255, 0, 0};
             public final static int[] green = {0, 255, 0};
 
-            public final static int LEDSinCount = 6;
+            public final static int LEDSinCount = 12;
+            public final static int kSpeed = 1;
         }
 
         public enum AnimationTypes{

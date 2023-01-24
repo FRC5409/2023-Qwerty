@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.led.CANdle;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.kCANdle;
@@ -41,6 +42,7 @@ public class CandleSubsystem extends SubsystemBase {
     configCandle.brightnessScalar = .5;
     candle.configAllSettings(configCandle);
     candle.animate(null, 0);
+    candle.setLEDs(0, 0, 0, 0, 0, 8);
   }
 
   public void configBrightness(double brightness) {
@@ -109,14 +111,34 @@ public class CandleSubsystem extends SubsystemBase {
     animationTime++;
     if (currentAnimationSlot == 5) {
       //update sin wave (not a sin funcction, Lex did a sin last year and so it should do the same just my way)
-      for (int i = 0; i < kCANdle.kConfig.LEDCount; i++) {
-        if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
-          candle.setLEDs(kColors.yellow[0], kColors.yellow[1], kColors.yellow[2], 0, i, 1);
-        } else {
-          candle.setLEDs(0, 0, 0, 0, i, 1);
-
+      double brightness = map(candle.getTemperature(), 0, 70, 1, 0, true);
+      System.out.println(brightness);
+      if (animationTime % kCANdle.kColors.kSpeed == 0) {
+        for (int i = 8; i < kCANdle.kConfig.LEDCount; i++) {
+          if ((i + Math.floor(animationTime / kCANdle.kColors.kSpeed)) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
+            candle.setLEDs((int) (kColors.yellow[0] * brightness), (int) (kColors.yellow[1] * brightness), (int) (kColors.yellow[2] * brightness), 0, i, 1);
+          } else {
+            candle.setLEDs(0, 0, 0, 0, i, 1);
+          }
         }
       }
     }
+    SmartDashboard.putNumber("CANdle temp: ", candle.getTemperature());
+  }
+
+  public double map(double n, double start1, double stop1, double start2, double stop2, boolean withinBounds) {
+    double newval = (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+    if (!withinBounds) {
+      return newval;
+    }
+    if (start2 < stop2) {
+      return constrain(newval, start2, stop2);
+    } else {
+      return constrain(newval, stop2, start2);
+    }
+  }
+
+  public double constrain(double n, double low, double high) {
+    return Math.max(Math.min(n, high), low);
   }
 }
