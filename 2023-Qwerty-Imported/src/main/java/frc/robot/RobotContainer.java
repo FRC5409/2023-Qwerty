@@ -4,22 +4,14 @@
 
 package frc.robot;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ArcadeDrive;
-import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants.kCANdle.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CandleCommand;
 import frc.robot.subsystems.CandleSubsystem;
 
@@ -74,6 +66,8 @@ public class RobotContainer {
         .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static));
     sys_controller.povDown()
         .onTrue(new CandleCommand(sys_candleSubsystem, 1, 0, 0, 0, AnimationTypes.sinWave));
+    sys_controller.povUpRight()
+        .onTrue(new CandleCommand(sys_candleSubsystem, 1, 0, 0, 0, AnimationTypes.sinFlow));
   }
 
   /**

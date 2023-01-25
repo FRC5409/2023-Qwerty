@@ -51,7 +51,8 @@ public final class Constants {
             Larson,
             Twinkle,
             Clear,
-            sinWave
+            sinWave,
+            sinFlow
         }
     }
 }

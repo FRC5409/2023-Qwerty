@@ -31,7 +31,8 @@ public class CandleSubsystem extends SubsystemBase {
 
   private int currentAnimationSlot = -1;
   
-  private int animationTime = 0;
+  private double timer = 0;
+  private double animationTime = 0;
 
   public CandleSubsystem() {
     //setting Candle CANID
@@ -101,14 +102,20 @@ public class CandleSubsystem extends SubsystemBase {
         candle.animate(null, currentAnimationSlot);
         currentAnimationSlot = 5;
         break;
+      case sinFlow:
+        candle.animate(null, currentAnimationSlot);
+        currentAnimationSlot = 6;
+        break;
     }
+    //setting the LEDs on the candle to off
     candle.setLEDs(0, 0, 0, 0, 0, 8);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    animationTime++;
+    timer++;
+    double brightness = map(candle.getTemperature(), 0, 70, 1, 0, true);
     if (currentAnimationSlot == -1) {
       for (int i = 0; i < 5; i++) {
         candle.animate(null, i);
@@ -116,8 +123,7 @@ public class CandleSubsystem extends SubsystemBase {
     }
     if (currentAnimationSlot == 5) {
       //update sin wave (not a sin funcction, Lex did a sin last year and so it should do the same just my way)
-      double brightness = map(candle.getTemperature(), 0, 70, 1, 0, true);
-      System.out.println(brightness);
+      animationTime++;
       if (animationTime % kCANdle.kColors.kSpeed == 0) {
         for (int i = 8; i < kCANdle.kConfig.LEDCount; i++) {
           if ((i + Math.floor(animationTime / kCANdle.kColors.kSpeed)) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
@@ -125,6 +131,15 @@ public class CandleSubsystem extends SubsystemBase {
           } else {
             candle.setLEDs(0, 0, 0, 0, i, 1);
           }
+        }
+      }
+    } else if (currentAnimationSlot == 6) {
+      animationTime = Math.sin(timer * 0.1) * 2;
+      for (int i = 8; i < kCANdle.kConfig.LEDCount; i++) {
+        if (i + Math.floor(animationTime) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
+          candle.setLEDs((int) (kColors.yellow[0] * brightness), (int) (kColors.yellow[1] * brightness), (int) (kColors.yellow[2] * brightness), 0, i, 1);
+        } else {
+          candle.setLEDs(0, 0, 0, 0, i, 1);
         }
       }
     }
