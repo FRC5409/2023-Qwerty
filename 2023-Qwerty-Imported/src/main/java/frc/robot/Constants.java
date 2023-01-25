@@ -15,19 +15,19 @@ package frc.robot;
 public final class Constants {
     public static class kDrivetrain{
         public static class kMotors{
-            public static int frontLeftMotor_CAN = 1;
-            public static int frontRightMotor_CAN = 3;
-            public static int rearLeftMotor_CAN = 2;
-            public static int rearRightMotor_CAN = 4;
-            public static double rampRate = 0.2; 
+            public final static int frontLeftMotor_CAN = 1;
+            public final static int frontRightMotor_CAN = 3;
+            public final static int rearLeftMotor_CAN = 2;
+            public final static int rearRightMotor_CAN = 4;
+            public final static double rampRate = 0.2; 
         }
         public static class kEncoder{
-            public static int countsPerRevolution = 0; //temp
+            public final static int countsPerRevolution = 0; //temp
         }
     }
     public static class kController{
-        public static int mainControllerPort = 0; 
-        public static boolean invertTurnOnReverse = false;
+        public final static int mainControllerPort = 0; 
+        public final static boolean invertTurnOnReverse = false;
     }
 
     public static class kCANdle{
