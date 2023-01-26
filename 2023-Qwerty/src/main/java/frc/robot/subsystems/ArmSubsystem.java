@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.robot.Constants.kArm;
 import frc.robot.Constants.kDrivetrain.kEncoder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -31,6 +30,11 @@ public class ArmSubsystem extends SubsystemBase
     motor_2.follow(motor_1);
 
     abs_encoder = new DutyCycleEncoder(kEncoder.kEncoderChannelId);
+  }
+
+  public void setTurnSpeed(double speed)
+  {
+    motor_1.set(speed);
   }
 
   public double getAbsolutePosition()
