@@ -42,6 +42,9 @@ public final class Constants {
 
             public final static int LEDSinCount = 12;
             public final static int kSpeed = 1;
+
+            public final static double kFrequency = 0.025;
+            public final static double kFrequencySpeed = 20;
         }
 
         public enum AnimationTypes{

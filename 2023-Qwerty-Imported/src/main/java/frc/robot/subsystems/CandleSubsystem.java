@@ -134,9 +134,9 @@ public class CandleSubsystem extends SubsystemBase {
         }
       }
     } else if (currentAnimationSlot == 6) {
-      animationTime = Math.sin(timer * 0.1) * 2;
+      animationTime = Math.floor(Math.sin(timer * kCANdle.kColors.kFrequency) * kCANdle.kColors.kFrequencySpeed);
       for (int i = 8; i < kCANdle.kConfig.LEDCount; i++) {
-        if (i + Math.floor(animationTime) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
+        if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
           candle.setLEDs((int) (kColors.yellow[0] * brightness), (int) (kColors.yellow[1] * brightness), (int) (kColors.yellow[2] * brightness), 0, i, 1);
         } else {
           candle.setLEDs(0, 0, 0, 0, i, 1);

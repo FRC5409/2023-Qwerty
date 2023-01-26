@@ -39,15 +39,15 @@ public class RobotContainer {
     sys_controller = new CommandXboxController(Constants.kController.mainControllerPort);
     //subsystems
     sys_candleSubsystem = new CandleSubsystem();
-    sys_drivetrain = new Drivetrain();
+    // sys_drivetrain = new Drivetrain();
 
     //Commands
     cmd_exampleCommand = new ExampleCommand();
-    cmd_arcadeDrive = new ArcadeDrive(sys_drivetrain, sys_controller);
+    // cmd_arcadeDrive = new ArcadeDrive(sys_drivetrain, sys_controller);
 
     //controller
 
-    sys_drivetrain.setDefaultCommand(cmd_arcadeDrive);
+    // sys_drivetrain.setDefaultCommand(cmd_arcadeDrive);
     configureButtonBindings();
   }
 
@@ -66,7 +66,7 @@ public class RobotContainer {
         .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static));
     sys_controller.povDown()
         .onTrue(new CandleCommand(sys_candleSubsystem, 1, 0, 0, 0, AnimationTypes.sinWave));
-    sys_controller.povUpRight()
+    sys_controller.a()
         .onTrue(new CandleCommand(sys_candleSubsystem, 1, 0, 0, 0, AnimationTypes.sinFlow));
   }
 
