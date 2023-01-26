@@ -6,23 +6,15 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.led.CANdle;
 
-import edu.wpi.first.hal.CANData;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.kCANdle.AnimationTypes;
-import pabeles.concurrency.ConcurrencyOps.NewInstance;
-
-import java.sql.Time;
-
-import javax.tools.ForwardingFileObject;
 
 import com.ctre.phoenix.led.*;
-import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
-import com.ctre.phoenix.led.TwinkleOffAnimation.TwinkleOffPercent;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.TwinkleAnimation;
 

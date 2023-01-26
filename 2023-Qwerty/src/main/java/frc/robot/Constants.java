@@ -12,36 +12,55 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 
-public final class Constants {
-    public static class kDrivetrain{
-        public static class kMotors{
+public final class Constants
+{
+    public static class kDrivetrain
+    {
+        public static class kMotors
+        {
             public static int frontLeftMotor_CAN = 1;
             public static int frontRightMotor_CAN = 3;
             public static int rearLeftMotor_CAN = 2;
             public static int rearRightMotor_CAN = 4;
             public static double rampRate = 0.2; 
         }
-        public static class kEncoder{
+
+        public static class kEncoder
+        {
+            public static int kEncoderChannelId = 1;
             public static int countsPerRevolution = 0; //temp
         }
     }
-    public static class kController{
+
+    public static class kArm
+    {
+        public static int kMotorId1 = 20;
+        public static int kMotorId2 = 21;
+    }
+
+    public static class kController
+    {
         public static int mainControllerPort = 0; 
         public static boolean invertTurnOnReverse = false;
     }
 
-    public static class kCANdle{
-        public static class kConfig {
+    public static class kCANdle
+    {
+        public static class kConfig
+        {
             public final static int CANdleCAN = 19;
             public final static int LEDCount = 68;
         }
-        public static class kColors {
+
+        public static class kColors
+        {
             public final static int[] yellow = {252, 144 , 3};
             public final static int[] red = {255, 0, 0};
             public final static int[] green = {0, 255, 0};
         }
 
-        public enum AnimationTypes{
+        public enum AnimationTypes
+        {
             Static,
             Rainbow,
             ColorFlow,
