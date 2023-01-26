@@ -23,6 +23,10 @@ public final class Constants {
             public final static int[] red = {255, 0, 0};
             public final static int[] green = {0, 255, 0};
         }
+    public static class kArmSubsystem {
+        public final static int kMotor1ID = 2;
+        public final static int kMotor2ID = 3;
+    }
 
         public enum AnimationTypes{
             Static,
