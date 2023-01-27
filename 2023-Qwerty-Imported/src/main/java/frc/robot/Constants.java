@@ -36,9 +36,9 @@ public final class Constants {
             public final static int LEDCount = 68;
         }
         public static class kColors {
-            public final static int[] yellow = {252, 144 , 3};
-            public final static int[] red = {255, 0, 0};
-            public final static int[] green = {0, 255, 0};
+            public final static int[] idle = {252, 144 , 3};
+            public final static int[] cube = {142, 39, 245};
+            public final static int[] cone = {232, 222, 28};
 
             public final static int LEDSinCount = 12;
             public final static int kSpeed = 1;

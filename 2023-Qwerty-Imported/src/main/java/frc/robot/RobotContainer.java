@@ -58,16 +58,22 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //cone static yellow
     sys_controller.povRight()
-        .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.ColorFlow));
+        .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.cone[0], Constants.kCANdle.kColors.cone[1], Constants.kCANdle.kColors.cone[2], AnimationTypes.Static));
+    //cube static purple/blue
     sys_controller.povLeft()
-        .onTrue(new CandleCommand(sys_candleSubsystem, 0, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Clear));
-    sys_controller.povUp()
-        .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static));
+        .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.cube[0], Constants.kCANdle.kColors.cube[1], Constants.kCANdle.kColors.cube[2], AnimationTypes.Static));
+
+    //idle animations (yellow)
     sys_controller.povDown()
         .onTrue(new CandleCommand(sys_candleSubsystem, 1, 0, 0, 0, AnimationTypes.sinWave));
-    sys_controller.a()
+    sys_controller.povUp()
         .onTrue(new CandleCommand(sys_candleSubsystem, 1, 0, 0, 0, AnimationTypes.sinFlow));
+
+    //turn off candle
+    sys_controller.a()
+        .onTrue(new CandleCommand(sys_candleSubsystem, 0, 0, 0, 0, AnimationTypes.Clear));
   }
 
   /**
