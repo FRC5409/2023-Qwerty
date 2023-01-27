@@ -13,8 +13,6 @@ public class ArmRotation extends CommandBase
   private ArmSubsystem arm;
   private CommandXboxController controller;
 
-  double turnVal;
-
   public ArmRotation(ArmSubsystem _arm, CommandXboxController _controller)
   {
     arm = _arm;
@@ -31,9 +29,18 @@ public class ArmRotation extends CommandBase
   @Override
   public void execute()
   {
-    turnVal = controller.getRightY();
-
-    arm.setTurnSpeed(turnVal);
+    if (controller.a().getAsBoolean())
+    {
+      arm.setTurnSpeed(-0.05);
+    }
+    else if (controller.y().getAsBoolean())
+    {
+      arm.setTurnSpeed(0.05);
+    }
+    else
+    {
+      arm.setTurnSpeed(0);
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -24,6 +24,9 @@ public class ArmSubsystem extends SubsystemBase
     motor_1 = new CANSparkMax(kArm.kMotorId1, MotorType.kBrushless);
     motor_2 = new CANSparkMax(kArm.kMotorId2, MotorType.kBrushless);
 
+    motor_1.restoreFactoryDefaults();
+    motor_2.restoreFactoryDefaults();
+
     motor_1.setIdleMode(IdleMode.kBrake);
     motor_2.setIdleMode(IdleMode.kBrake);
 
