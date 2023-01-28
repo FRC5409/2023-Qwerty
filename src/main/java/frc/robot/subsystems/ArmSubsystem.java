@@ -40,9 +40,9 @@ public class ArmSubsystem extends SubsystemBase
     motor_1.set(speed);
   }
 
-  public double getAbsolutePosition()
+  public double getAbsPos()
   {
-    return abs_encoder.getAbsolutePosition();
+    return abs_encoder.get();
   }
 
   public void reset()
