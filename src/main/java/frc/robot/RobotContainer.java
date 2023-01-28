@@ -53,11 +53,13 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-      m_driverController.y()
-        .whileTrue(new ArmMotion(sys_arm, 0.5));
+      m_driverController.leftBumper()
+        .onTrue(new ArmMotion(sys_arm, 0.5))
+        .onFalse(new ArmMotion(sys_arm, 0.0));
 
-      m_driverController.a()
-        .whileTrue(new ArmMotion(sys_arm, -0.5));
+      m_driverController.rightBumper()
+        .onTrue(new ArmMotion(sys_arm, -0.5))
+        .onFalse(new ArmMotion(sys_arm, 0.0));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
