@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.MotorCommutation;
+//import com.ctre.phoenix.motorcontrol.MotorCommutation;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -24,7 +23,8 @@ public class ArmSubsystem extends SubsystemBase {
   private final DutyCycleEncoder m_encoder;
   private final PIDController m_PidController;
   private final ShuffleboardTab sb_armTab;
-  private final GenericEntry kP, kI,kD;
+  edu.wpi.first.networktables.GenericEntry kP, kI, kD, Position;
+
   
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {
@@ -46,9 +46,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     sb_armTab = Shuffleboard.getTab("Arm");
 
-    kP = sb_armTab.add("kP",0).getEntry();
-
-
+    kP = sb_armTab.add("kP", 0).getEntry();
+    kI = sb_armTab.add("kI", 0).getEntry();
+    kD = sb_armTab.add("kD", 0).getEntry();
+    Position = sb_armTab.add("Position", 0).getEntry();
 
   }
 
@@ -73,6 +74,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Position.setDouble(getPos());
+    setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
     // This method will be called once per scheduler run
   }
 
