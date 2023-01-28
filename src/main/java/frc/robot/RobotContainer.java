@@ -33,7 +33,6 @@ public class RobotContainer {
   //commands
   private static ExampleCommand cmd_exampleCommand;
   private static ArcadeDrive cmd_arcadeDrive;
-  private ArmRotation cmd_armRotation;
 
   //controller
   private final CommandXboxController sys_controller;
