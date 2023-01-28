@@ -30,6 +30,9 @@ public class ArmSubsystem extends SubsystemBase
     motor_1.setIdleMode(IdleMode.kBrake);
     motor_2.setIdleMode(IdleMode.kBrake);
 
+    motor_1.setSmartCurrentLimit(40);
+    motor_2.setSmartCurrentLimit(40);
+
     motor_2.follow(motor_1);
 
     abs_encoder = new DutyCycleEncoder(kEncoder.kEncoderChannelId);
