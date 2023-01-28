@@ -27,7 +27,7 @@ public final class Constants
 
         public static class kEncoder
         {
-            public static int kEncoderChannelId = 1;
+            public static int kEncoderChannelId = 0;
             public static int countsPerRevolution = 0; //temp
         }
     }
@@ -36,6 +36,9 @@ public final class Constants
     {
         public static int kMotorId1 = 20;
         public static int kMotorId2 = 21;
+
+        public static double kForwardLimit = 1.03;
+        public static double kBackwardLimit = 0.45;
     }
 
     public static class kController

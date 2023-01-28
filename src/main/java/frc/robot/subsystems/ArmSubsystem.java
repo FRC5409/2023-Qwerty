@@ -23,7 +23,7 @@ public class ArmSubsystem extends SubsystemBase
   private final DutyCycleEncoder absEncoder;
 
   private final ShuffleboardTab armTab;
-  private final GenericEntry pos_absEncoder;
+  private final GenericEntry entry_absEncPos;
 
   public ArmSubsystem()
   {
@@ -44,7 +44,20 @@ public class ArmSubsystem extends SubsystemBase
     absEncoder = new DutyCycleEncoder(kEncoder.kEncoderChannelId);
 
     armTab = Shuffleboard.getTab("Arm");
-    pos_absEncoder = armTab.add("Absolute Position", absEncoder.getAbsolutePosition()).getEntry();
+    entry_absEncPos = armTab.add("Absolute Position", getAbsPos()).getEntry();
+  }
+
+  public double getAbsPos()
+  {
+    double encValue = absEncoder.getAbsolutePosition();
+    if (encValue < 0.3)
+    {
+      return encValue + 1;
+    }
+    else
+    {
+      return encValue;
+    }
   }
 
   public void setTurnSpeed(double speed)
@@ -55,6 +68,6 @@ public class ArmSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    pos_absEncoder.setDouble(absEncoder.getAbsolutePosition());
+    entry_absEncPos.setDouble(getAbsPos());
   }
 }
