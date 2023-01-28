@@ -71,9 +71,9 @@ public class RobotContainer {
     sys_controller.povUp()
         .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static));
     
-    sys_controller.y()
+    sys_controller.rightBumper()
     .whileTrue(new ArmRotation(sys_arm, 0.4));
-    sys_controller.a()
+    sys_controller.leftBumper()
     .whileTrue(new ArmRotation(sys_arm, -0.4));
   }
 

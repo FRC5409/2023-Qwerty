@@ -9,7 +9,10 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.kArm;
 import frc.robot.Constants.kDrivetrain.kEncoder;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase
@@ -17,7 +20,10 @@ public class ArmSubsystem extends SubsystemBase
   private final CANSparkMax motor_1;
   private final CANSparkMax motor_2;
 
-  private final DutyCycleEncoder abs_encoder;
+  private final DutyCycleEncoder absEncoder;
+
+  private final ShuffleboardTab armTab;
+  private final GenericEntry pos_absEncoder;
 
   public ArmSubsystem()
   {
@@ -35,7 +41,10 @@ public class ArmSubsystem extends SubsystemBase
 
     motor_2.follow(motor_1);
 
-    abs_encoder = new DutyCycleEncoder(kEncoder.kEncoderChannelId);
+    absEncoder = new DutyCycleEncoder(kEncoder.kEncoderChannelId);
+
+    armTab = Shuffleboard.getTab("Arm");
+    pos_absEncoder = armTab.add("Absolute Position", absEncoder.getAbsolutePosition()).getEntry();
   }
 
   public void setTurnSpeed(double speed)
@@ -43,18 +52,9 @@ public class ArmSubsystem extends SubsystemBase
     motor_1.set(speed);
   }
 
-  public double getAbsPos()
-  {
-    return abs_encoder.get();
-  }
-
-  public void reset()
-  {
-    abs_encoder.reset();
-  }
-
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void periodic()
+  {
+    pos_absEncoder.setDouble(absEncoder.getAbsolutePosition());
   }
 }
