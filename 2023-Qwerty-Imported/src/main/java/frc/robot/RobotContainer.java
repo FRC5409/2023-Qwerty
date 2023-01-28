@@ -8,11 +8,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.MoveArm;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.kArm;
 import frc.robot.Constants.kCANdle.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CandleCommand;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CandleSubsystem;
 
 /**
@@ -25,6 +28,7 @@ public class RobotContainer {
   //Subsystems
   private static Drivetrain sys_drivetrain;
   private final CandleSubsystem sys_candleSubsystem; 
+  private final Arm sys_arm;
 
   //commands
   private static ExampleCommand cmd_exampleCommand;
@@ -39,6 +43,7 @@ public class RobotContainer {
     sys_controller = new CommandXboxController(Constants.kController.mainControllerPort);
     //subsystems
     sys_candleSubsystem = new CandleSubsystem();
+    sys_arm = new Arm();
     // sys_drivetrain = new Drivetrain();
 
     //Commands
@@ -74,6 +79,13 @@ public class RobotContainer {
     //turn off candle
     sys_controller.a()
         .onTrue(new CandleCommand(sys_candleSubsystem, 0, 0, 0, 0, AnimationTypes.Clear));
+
+    // sys_controller.leftBumper().onTrue(new MoveArm(sys_arm, -0.6)).onFalse(new MoveArm(sys_arm, 0));
+    // sys_controller.rightBumper().onTrue(new MoveArm(sys_arm, 0.6)).onFalse(new MoveArm(sys_arm, 0));  
+
+    sys_controller.leftBumper().whileTrue(new MoveArm(sys_arm, -kArm.kSpeed));
+    sys_controller.rightBumper().whileTrue(new MoveArm(sys_arm, kArm.kSpeed));
+
   }
 
   /**

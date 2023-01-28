@@ -30,7 +30,7 @@ public final class Constants {
         public final static boolean invertTurnOnReverse = false;
     }
 
-    public static class kCANdle{
+    public static class kCANdle {
         public static class kConfig {
             public final static int CANdleCAN = 19;
             public final static int LEDCount = 68;
@@ -38,9 +38,9 @@ public final class Constants {
         public static class kColors {
             public final static int[] idle = {252, 144 , 3};
             public final static int[] cube = {142, 39, 245};
-            public final static int[] cone = {232, 222, 28};
+            public final static int[] cone = {237, 120, 0};
 
-            public final static int LEDSinCount = 12;
+            public final static int LEDSinCount = 8;
             public final static int kSpeed = 1;
 
             public final static double kFrequency = 0.025;
@@ -57,5 +57,12 @@ public final class Constants {
             sinWave,
             sinFlow
         }
+    }
+
+    public static class kArm {
+        public final static int motor1 = 20;
+        public final static int motor2 = 21;
+
+        public final static double kSpeed = 0.8;
     }
 }

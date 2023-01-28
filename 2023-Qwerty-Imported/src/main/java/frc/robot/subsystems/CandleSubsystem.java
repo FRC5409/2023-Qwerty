@@ -126,7 +126,7 @@ public class CandleSubsystem extends SubsystemBase {
       animationTime++;
       if (animationTime % kCANdle.kColors.kSpeed == 0) {
         for (int i = 8; i < kCANdle.kConfig.LEDCount; i++) {
-          if ((i + Math.floor(animationTime / kCANdle.kColors.kSpeed)) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
+          if ((i + Math.floor(animationTime / kCANdle.kColors.kSpeed)) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
             candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
           } else {
             candle.setLEDs(0, 0, 0, 0, i, 1);
@@ -135,8 +135,11 @@ public class CandleSubsystem extends SubsystemBase {
       }
     } else if (currentAnimationSlot == 6) {
       animationTime = Math.floor(Math.sin(timer * kCANdle.kColors.kFrequency) * kCANdle.kColors.kFrequencySpeed);
+      if (animationTime != 0) {
+        animationTime += animationTime / Math.abs(animationTime);
+      }
       for (int i = 8; i < kCANdle.kConfig.LEDCount; i++) {
-        if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) <= kCANdle.kColors.LEDSinCount) {
+        if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
           candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
         } else {
           candle.setLEDs(0, 0, 0, 0, i, 1);
