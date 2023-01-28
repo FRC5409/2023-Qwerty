@@ -13,29 +13,34 @@ import frc.robot.subsystems.ArmSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmRotation extends PIDCommand {
   /** Creates a new ArmRotation. */
-  public ArmRotation(double speed, ArmSubsystem m_arm) {
+  public ArmRotation(double targetPosition, ArmSubsystem m_arm) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        new PIDController(0.01, 0, 0),
         // This should return the measurement
         
         m_arm::getPos,
         // This should return the setpoint (can also be a constant)
-        speed,
+        targetPosition,
         // This uses the output
-        output -> m_arm.start(), 
-          // Use the output here
+        output -> m_arm.start(output), 
+          // Require the arm
         m_arm);   
-    addRequirements(m_arm);  
+    // addRequirements(m_arm);  
    // getController().enableContinuousInput(speed, speed); going to use
-   getController().setTolerance(speed);
+   // getController().setTolerance(0.001);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+
+    System.out.println("PID command started " + targetPosition + "  " +m_arm.getPos());
+
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    //return true;
+   return getController().atSetpoint();
   }
 }

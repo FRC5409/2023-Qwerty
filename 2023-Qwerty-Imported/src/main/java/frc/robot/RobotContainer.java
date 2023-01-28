@@ -9,10 +9,13 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.ArmRotation;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.Constants.kCANdle.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -26,19 +29,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //subsystems
   private final ExampleSubsystem m_exampleSubsystem;
+  private final ArmSubsystem m_ArmSubsystem;
 
   //commands  
   private final ExampleCommand m_autoCommand;
   //private final CandleCommand sys_candleCommand;
 
   //controller
-  private final XboxController sys_controller;
-
-  //Suppliers
-  private final BooleanSupplier dpadRight, dpadLeft, dpadUp;
-
-  // Triggers
-  private final Trigger dpadRightTrigger, dpadLeftTrigger, dpadUpTrigger;
+  private final CommandXboxController sys_controller;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,13 +44,16 @@ public class RobotContainer {
     //subsystems
 
     m_exampleSubsystem = new ExampleSubsystem();
+    m_ArmSubsystem = new ArmSubsystem();
 
 
     //commands
     m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+
     //controller
-    sys_controller = new XboxController(0);
+    sys_controller = new CommandXboxController(0);
+    configureButtonBindings();
 
   }
 
@@ -63,9 +64,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings(){
+    sys_controller.y().onTrue(new ArmRotation(0.65, m_ArmSubsystem));
+    sys_controller.a().onTrue(new ArmRotation(0.75, m_ArmSubsystem));
+
 
   
-  
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

@@ -31,14 +31,12 @@ public class ArmSubsystem extends SubsystemBase {
     m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kCoast);
-    m_motor1.burnFlash();
     m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
 
     m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
     m_motor2.restoreFactoryDefaults();
     m_motor2.follow(m_motor1);
     m_motor2.setIdleMode(IdleMode.kCoast);
-    m_motor2.burnFlash();
     m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
     
     m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
@@ -61,11 +59,23 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getPos(){
-    return m_encoder.get();
-  }
+    double ecd_value = m_encoder.getAbsolutePosition();
+    if (ecd_value < 0.3){
+      return ecd_value + 1;
+    }else{
+      return ecd_value;
+    }}
 
-  public void start(){
-    m_motor1.set(Constants.kArmSubsystem.kSpeed);
+  public void start(double speed){
+    if(speed > 0.5){
+      m_motor1.set(0.5);
+    }
+    else if (speed <-0.5){
+      m_motor1.set(-0.5);
+    }
+    else{
+      m_motor1.set(speed);
+    }
   }
 
   public void disable(){
