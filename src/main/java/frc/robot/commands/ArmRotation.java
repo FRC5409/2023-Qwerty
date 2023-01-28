@@ -5,43 +5,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmRotation extends CommandBase
 {
   private ArmSubsystem arm;
-  private CommandXboxController controller;
+  private double speed;
 
-  public ArmRotation(ArmSubsystem _arm, CommandXboxController _controller)
+  public ArmRotation(ArmSubsystem _arm, double _speed)
   {
     arm = _arm;
-    controller = _controller;
+    speed = _speed;
 
     addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize()
+  {
+    arm.setTurnSpeed(speed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
-    if (controller.a().getAsBoolean())
-    {
-      arm.setTurnSpeed(-0.1);
-    }
-    else if (controller.y().getAsBoolean())
-    {
-      arm.setTurnSpeed(0.1);
-    }
-    else
-    {
-      arm.setTurnSpeed(0);
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

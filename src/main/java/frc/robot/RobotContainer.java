@@ -33,7 +33,6 @@ public class RobotContainer {
   //commands
   private static ExampleCommand cmd_exampleCommand;
   private static ArcadeDrive cmd_arcadeDrive;
-  private final ArmRotation cmd_armRotation;
 
   //controller
   private final CommandXboxController sys_controller;
@@ -50,12 +49,10 @@ public class RobotContainer {
     //Commands
     cmd_exampleCommand = new ExampleCommand();
     cmd_arcadeDrive = new ArcadeDrive(sys_drivetrain, sys_controller);
-    cmd_armRotation = new ArmRotation(sys_arm, sys_controller);
 
     //controller
 
     sys_drivetrain.setDefaultCommand(cmd_arcadeDrive);
-    sys_arm.setDefaultCommand(cmd_armRotation);
     configureButtonBindings();
   }
 
@@ -65,13 +62,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings()
+  {
     sys_controller.povRight()
         .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.ColorFlow));
     sys_controller.povLeft()
         .onTrue(new CandleCommand(sys_candleSubsystem, 0, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Clear));
     sys_controller.povUp()
         .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static));
+    
+    sys_controller.y()
+        .whileTrue(new ArmRotation(sys_arm, 0.2));
+    sys_controller.a()
+        .whileTrue(new ArmRotation(sys_arm, -0.2));
   }
 
   /**
