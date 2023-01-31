@@ -37,8 +37,11 @@ public final class Constants
         public static int kMotorId1 = 20;
         public static int kMotorId2 = 21;
 
-        public static double kForwardLimit = 1.03;
-        public static double kBackwardLimit = 0.45;
+        public static double kForwardSoftLimit = 1.03;
+        public static double kBackwardSoftLimit = 0.45;
+
+        // public static double kForwardHardLimit = 1.07;
+        // public static double kBackwardHardLimit = 0.41;
     }
 
     public static class kController

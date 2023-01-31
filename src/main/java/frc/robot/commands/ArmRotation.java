@@ -13,6 +13,8 @@ public class ArmRotation extends CommandBase
   private ArmSubsystem arm;
   private double speed;
 
+  private boolean hasStarted;
+
   public ArmRotation(ArmSubsystem _arm, double _speed)
   {
     arm = _arm;
@@ -25,7 +27,20 @@ public class ArmRotation extends CommandBase
   @Override
   public void initialize()
   {
-    arm.setTurnSpeed(speed);
+    if (speed > 0 && arm.getAbsPos() >= kArm.kForwardSoftLimit)
+    {
+      // nothing();
+    }
+    else if (speed < 0 && arm.getAbsPos() <= kArm.kBackwardSoftLimit)
+    {
+      // nothing();
+    }
+    else
+    {
+      arm.setTurnSpeed(speed);
+    }
+
+    hasStarted = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,6 +58,11 @@ public class ArmRotation extends CommandBase
   @Override
   public boolean isFinished()
   {
-    return (arm.getAbsPos() <= kArm.kBackwardLimit || arm.getAbsPos() >= kArm.kForwardLimit);
+    while (hasStarted == false)
+    {
+      // nothing();
+    }
+
+    return (arm.getAbsPos() <= kArm.kBackwardSoftLimit || arm.getAbsPos() >= kArm.kForwardSoftLimit);
   }
 }
