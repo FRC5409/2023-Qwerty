@@ -4,22 +4,15 @@
 
 package frc.robot;
 
-import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.ArmRotation;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.newArmRotation;
 import frc.robot.subsystems.ArmPIDSubsystem;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.Constants.kCANdle.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -67,10 +60,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings(){
     sys_controller.y().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.75));
-    sys_controller.a().onTrue(new newArmRotation(m_ArmPIDSubsystem, -0.4, 0.5)); 
+    sys_controller.a().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.5)); 
   
-   // sys_controller.y().onTrue(new ArmRotation(0.65, m_ArmSubsystem));
-   // sys_controller.a().onTrue(new ArmRotation(0.75, m_ArmSubsystem));
+
 
 
   
