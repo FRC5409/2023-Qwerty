@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ArmRotation;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.newArmRotation;
+import frc.robot.subsystems.ArmPIDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.Constants.kCANdle.AnimationTypes;
@@ -29,7 +31,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //subsystems
   private final ExampleSubsystem m_exampleSubsystem;
-  private final ArmSubsystem m_ArmSubsystem;
+  private final ArmPIDSubsystem m_ArmPIDSubsystem;
 
   //commands  
   private final ExampleCommand m_autoCommand;
@@ -44,7 +46,7 @@ public class RobotContainer {
     //subsystems
 
     m_exampleSubsystem = new ExampleSubsystem();
-    m_ArmSubsystem = new ArmSubsystem();
+    m_ArmPIDSubsystem = new ArmPIDSubsystem();
 
 
     //commands
@@ -64,8 +66,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings(){
-    sys_controller.y().onTrue(new ArmRotation(0.65, m_ArmSubsystem));
-    sys_controller.a().onTrue(new ArmRotation(0.75, m_ArmSubsystem));
+    sys_controller.y().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.75));
+    sys_controller.a().onTrue(new newArmRotation(m_ArmPIDSubsystem, -0.4, 0.5)); 
+  
+   // sys_controller.y().onTrue(new ArmRotation(0.65, m_ArmSubsystem));
+   // sys_controller.a().onTrue(new ArmRotation(0.75, m_ArmSubsystem));
 
 
   
