@@ -43,8 +43,8 @@ public final class Constants {
         public final static double kP = 0;
         public final static double kI = 0;
         public final static double kD = 0;
-        public final static double kHighSetpoint = 30;
-        public final static double kLowSetpoint = 10;
+        public final static double kHighSetpoint = 0.7;
+        public final static double kLowSetpoint = 0.5;
 
     }
 }
