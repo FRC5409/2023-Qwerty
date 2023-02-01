@@ -16,16 +16,22 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
 public class ArmPIDSubsystem extends PIDSubsystem {
-  private final CANSparkMax m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
-  private final CANSparkMax m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
-  private final DutyCycleEncoder m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
+  private final CANSparkMax m_motor1;
+  private final CANSparkMax m_motor2;
+  private final DutyCycleEncoder m_encoder;
   private final ShuffleboardTab sb_armTab;
   edu.wpi.first.networktables.GenericEntry kP,kI,kD,AbsolutePosition;
 
   /** Creates a new ArmPIDSubsystem. */
   public ArmPIDSubsystem() {
     super(new PIDController(Constants.kArmSubsystem.kP,Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kP));
-    getController().setTolerance(getSetpoint());
+
+    m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID,MotorType.kBrushless);
+    m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
+    m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
+
+    getController().setTolerance(1);
+
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kBrake);
     m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);

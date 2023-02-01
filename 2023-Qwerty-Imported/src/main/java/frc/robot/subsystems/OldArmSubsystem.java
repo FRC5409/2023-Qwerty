@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ArmSubsystem extends SubsystemBase {
+public class OldArmSubsystem extends SubsystemBase {
   private final CANSparkMax m_motor1;
   private final CANSparkMax m_motor2;
   private final DutyCycleEncoder m_encoder;
@@ -27,7 +27,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   
   /** Creates a new ExampleSubsystem. */
-  public ArmSubsystem() {
+  public OldArmSubsystem() {
     m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kCoast);

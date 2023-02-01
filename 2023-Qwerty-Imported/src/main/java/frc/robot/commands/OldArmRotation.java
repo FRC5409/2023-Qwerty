@@ -6,14 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.OldArmSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmRotation extends PIDCommand {
+public class OldArmRotation extends PIDCommand {
   /** Creates a new ArmRotation. */
-  public ArmRotation(double targetPosition, ArmSubsystem m_arm) {
+  public OldArmRotation(double targetPosition, OldArmSubsystem m_arm) {
     super(
         // The controller that the command will use
         new PIDController(0.01, 0, 0),
