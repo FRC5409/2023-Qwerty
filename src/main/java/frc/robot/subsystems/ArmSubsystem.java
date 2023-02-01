@@ -49,14 +49,14 @@ public class ArmSubsystem extends SubsystemBase
 
   public double getAbsPos()
   {
-    double encValue = absEncoder.getAbsolutePosition();
-    if (encValue < 0.3)
+    double curr_encVal = absEncoder.getAbsolutePosition();
+    if (curr_encVal < 0.3)
     {
-      return encValue + 1;
+      return curr_encVal + 1;
     }
     else
     {
-      return encValue;
+      return curr_encVal;
     }
   }
 

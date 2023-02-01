@@ -6,14 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.Constants.kArm;
 
 public class ArmRotation extends CommandBase
 {
   private ArmSubsystem arm;
   private double speed;
-
-  private boolean hasStarted;
 
   public ArmRotation(ArmSubsystem _arm, double _speed)
   {
@@ -27,20 +24,7 @@ public class ArmRotation extends CommandBase
   @Override
   public void initialize()
   {
-    if (speed > 0 && arm.getAbsPos() >= kArm.kForwardSoftLimit)
-    {
-      // nothing();
-    }
-    else if (speed < 0 && arm.getAbsPos() <= kArm.kBackwardSoftLimit)
-    {
-      // nothing();
-    }
-    else
-    {
-      arm.setTurnSpeed(speed);
-    }
-
-    hasStarted = true;
+    arm.setTurnSpeed(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -58,11 +42,6 @@ public class ArmRotation extends CommandBase
   @Override
   public boolean isFinished()
   {
-    while (hasStarted == false)
-    {
-      // nothing();
-    }
-
-    return (arm.getAbsPos() <= kArm.kBackwardSoftLimit || arm.getAbsPos() >= kArm.kForwardSoftLimit);
+    return false;
   }
 }
