@@ -16,22 +16,16 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
 public class ArmPIDSubsystem extends PIDSubsystem {
-  private final CANSparkMax m_motor1;
-  private final CANSparkMax m_motor2;
-  private final DutyCycleEncoder m_encoder;
+  private final CANSparkMax m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
+  private final CANSparkMax m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
+  private final DutyCycleEncoder m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
   private final ShuffleboardTab sb_armTab;
   edu.wpi.first.networktables.GenericEntry kP,kI,kD,AbsolutePosition;
 
   /** Creates a new ArmPIDSubsystem. */
   public ArmPIDSubsystem() {
     super(new PIDController(Constants.kArmSubsystem.kP,Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kP));
-
-    m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID,MotorType.kBrushless);
-    m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
-    m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
-
-    getController().setTolerance(1);
-
+    getController().setTolerance(1);//This is your error and should be a constant that we tweak
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kBrake);
     m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
@@ -47,7 +41,6 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     kD = sb_armTab.add("kD", 0).getEntry();
     AbsolutePosition = sb_armTab.add("AbsolutePosition", 0).getEntry();
 
-    AbsolutePosition.setDouble(getMeasurement());
     setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
   }
 
@@ -62,18 +55,23 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     else{
       m_motor1.set(speed);
     }
-    m_controller.setSetpoint(setpoint);
+    //m_controller.setSetpoint(setpoint);
   }
 
   @Override
   public double getMeasurement() {
     double ecd_value = m_encoder.getAbsolutePosition();
+    
+
     if (ecd_value < 0.3){
+      AbsolutePosition.setDouble(ecd_value);
       return ecd_value + 1;
     }else{
+      AbsolutePosition.setDouble(ecd_value);
       return ecd_value;
     }
     // Return the process variable measurement here
+    
   }
 
   public void disable(){
