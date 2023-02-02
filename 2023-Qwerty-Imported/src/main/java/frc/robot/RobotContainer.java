@@ -62,8 +62,8 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings(){
-    sys_controller.x().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.8)); // enables and sets to another position
-    sys_controller.b().onTrue(new newArmRotation(m_ArmPIDSubsystem, -0.4, 0.5)); //  sets to position
+    sys_controller.x().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.7)); // enables and sets to another position
+    sys_controller.b().onTrue(new newArmRotation(m_ArmPIDSubsystem, -0.4, 0.4)); //  sets to position
     sys_controller.y().onTrue(new ArmDisable(m_ArmPIDSubsystem)); // disables the arm
     sys_controller.a().onTrue(new UpdatePID(m_ArmPIDSubsystem)); // updates PID system
 
