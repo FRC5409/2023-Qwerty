@@ -40,8 +40,7 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     kI = sb_armTab.add("kI", 0).getEntry();
     kD = sb_armTab.add("kD", 0).getEntry();
     AbsolutePosition = sb_armTab.add("AbsolutePosition", 0).getEntry();
-
-    setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
+    
   }
 
   @Override
@@ -61,7 +60,6 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   @Override
   public double getMeasurement() {
     double ecd_value = m_encoder.getAbsolutePosition();
-    
 
     if (ecd_value < 0.3){
       AbsolutePosition.setDouble(ecd_value);
@@ -70,12 +68,15 @@ public class ArmPIDSubsystem extends PIDSubsystem {
       AbsolutePosition.setDouble(ecd_value);
       return ecd_value;
     }
-    // Return the process variable measurement here
-    
+    // Return the process variable measurement here 
   }
 
   public void disable(){
     m_motor1.disable();
+  }
+
+  public boolean isEnabled(){
+    return isEnabled();
   }
 
   public double getSetpoint(){
@@ -89,5 +90,8 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   }
 }
 
-
+// notes
+// make a command that gets and sets pid in the subsystem
+// make three buttons, one that enables and sets to a position, one that sets it to another position, one that disables it 
+// use if not isenable, enable for the button 
 

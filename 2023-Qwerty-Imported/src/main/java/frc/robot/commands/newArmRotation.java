@@ -25,6 +25,7 @@ public class newArmRotation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     if (sys_arm.isEnabled() == false){
       sys_arm.enable();
       sys_arm.useOutput(speed, setpoint);

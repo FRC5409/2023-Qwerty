@@ -7,7 +7,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArmDisable;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.UpdatePID;
 import frc.robot.commands.newArmRotation;
 import frc.robot.subsystems.ArmPIDSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -58,14 +60,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
   private void configureButtonBindings(){
-    sys_controller.y().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.75));
-    sys_controller.a().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.5)); 
-  
+    sys_controller.x().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.8)); // enables and sets to another position
+    sys_controller.b().onTrue(new newArmRotation(m_ArmPIDSubsystem, -0.4, 0.5)); //  sets to position
+    sys_controller.y().onTrue(new ArmDisable(m_ArmPIDSubsystem)); // disables the arm
+    sys_controller.a().onTrue(new UpdatePID(m_ArmPIDSubsystem)); // updates PID system
 
-
-
-  
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
