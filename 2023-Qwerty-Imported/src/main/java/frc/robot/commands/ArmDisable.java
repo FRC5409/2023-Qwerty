@@ -7,31 +7,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmPIDSubsystem;
 
-public class newArmRotation extends CommandBase {
+public class ArmDisable extends CommandBase {
   private final ArmPIDSubsystem sys_arm;
-  private double speed;
-  private double setpoint;
-
-  /** Creates a new ArmRotation2. */
-  public newArmRotation(ArmPIDSubsystem armPIDSubsystem, double speed, double setpoint) {
+  /** Creates a new ArmDisable. */
+  public ArmDisable(ArmPIDSubsystem armPIDSubsystem) {
     sys_arm = armPIDSubsystem;
-    this.speed = speed;
-    this.setpoint = setpoint;
 
     addRequirements(sys_arm);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (sys_arm.isEnabled() == false){
-      sys_arm.enable();
-      sys_arm.useOutput(speed, setpoint);
-    }
-    else if (sys_arm.isEnabled()){
-      sys_arm.useOutput(speed, setpoint);
-    }
+    sys_arm.disable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,9 +30,7 @@ public class newArmRotation extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    sys_arm.useOutput(0,setpoint);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
