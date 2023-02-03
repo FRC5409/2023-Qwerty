@@ -28,7 +28,7 @@ public class UpdatePID extends CommandBase {
   @Override
   public void initialize() {
     //Get PID values from shuffleboard
-    sys_arm.setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
+    sys_arm.setPIDfromshuffleboard();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

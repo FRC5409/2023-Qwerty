@@ -71,22 +71,16 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     // Return the process variable measurement here 
   }
 
-  public void disable(){
-    m_motor1.disable();
-  }
-
-  public boolean isEnabled(){
-    return isEnabled();
-  }
-
-  public double getSetpoint(){
-    return m_controller.getSetpoint();
-  }
-
   public void setPIDFvalues(double kP, double kI, double kD){
     m_controller.setP(kP);
     m_controller.setI(kI);
     m_controller.setD(kD);
+  }
+
+  public void setPIDfromshuffleboard(){
+    setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
+    System.out.println("kP:" + kP.getDouble(0) + " kI:" + kI.getDouble(0) + " kD:" + kD.getDouble(0));
+
   }
 }
 

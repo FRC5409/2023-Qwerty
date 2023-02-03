@@ -30,7 +30,7 @@ public class newArmRotation extends CommandBase {
       sys_arm.enable();
       sys_arm.useOutput(speed, setpoint);
     }
-    else if (sys_arm.isEnabled()){
+    else if (sys_arm.isEnabled() == true){
       sys_arm.useOutput(speed, setpoint);
     }
   }
@@ -43,6 +43,7 @@ public class newArmRotation extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     sys_arm.useOutput(0,setpoint);
+    System.out.println("ArmRotation");
   }
 
   // Returns true when the command should end.
