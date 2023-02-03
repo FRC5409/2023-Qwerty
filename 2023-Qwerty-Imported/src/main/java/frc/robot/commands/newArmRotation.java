@@ -26,11 +26,11 @@ public class newArmRotation extends CommandBase {
   @Override
   public void initialize() {
 
-    if (sys_arm.isEnabled() == false){
+    if (!sys_arm.isEnabled()){
       sys_arm.enable();
       sys_arm.useOutput(speed, setpoint);
     }
-    else if (sys_arm.isEnabled() == true){
+    else if (sys_arm.isEnabled()){
       sys_arm.useOutput(speed, setpoint);
     }
   }

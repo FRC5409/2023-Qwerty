@@ -21,17 +21,18 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   private final DutyCycleEncoder m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
   private final ShuffleboardTab sb_armTab;
   edu.wpi.first.networktables.GenericEntry kP,kI,kD,AbsolutePosition;
+  // fix the genericentry import it
 
   /** Creates a new ArmPIDSubsystem. */
   public ArmPIDSubsystem() {
-    super(new PIDController(Constants.kArmSubsystem.kP,Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kP));
+    super(new PIDController(Constants.kArmSubsystem.kP,Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kD));
     getController().setTolerance(1);//This is your error and should be a constant that we tweak
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kBrake);
     m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
 
-    m_motor2.follow(m_motor1);
     m_motor2.restoreFactoryDefaults();
+    m_motor2.follow(m_motor1);
     m_motor2.setIdleMode(IdleMode.kBrake);
     m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
 
@@ -45,21 +46,13 @@ public class ArmPIDSubsystem extends PIDSubsystem {
 
   @Override
   public void useOutput(double speed, double setpoint) {
-    if(speed > 0.5){
-      m_motor1.set(0.5);
-    }
-    else if (speed <-0.5){
-      m_motor1.set(-0.5);
-    }
-    else{
-      m_motor1.set(speed);
-    }
-    //m_controller.setSetpoint(setpoint);
+    m_motor1.set(speed);
+    m_controller.setSetpoint(setpoint);
   }
 
   @Override
   public double getMeasurement() {
-    double ecd_value = m_encoder.getAbsolutePosition();
+    double ecd_value = m_encoder.get(); // absolute
 
     if (ecd_value < 0.3){
       AbsolutePosition.setDouble(ecd_value);
@@ -71,7 +64,7 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     // Return the process variable measurement here 
   }
 
-  public void setPIDFvalues(double kP, double kI, double kD){
+  public void setPIDFvalues(double kP, double kI, double kD){ // add FF
     m_controller.setP(kP);
     m_controller.setI(kI);
     m_controller.setD(kD);
@@ -81,6 +74,15 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
     System.out.println("kP:" + kP.getDouble(0) + " kI:" + kI.getDouble(0) + " kD:" + kD.getDouble(0));
 
+  }
+
+  public double getSetpoint(){
+    // make when setpoint reaches wanted setpoint
+  }
+  // make a get setpoint too
+
+  public void resetEncoder(){
+    m_encoder.reset();
   }
 }
 
