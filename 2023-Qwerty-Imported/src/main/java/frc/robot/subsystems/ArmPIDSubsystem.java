@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -22,6 +23,7 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   private final DutyCycleEncoder m_encoder;
   private final ShuffleboardTab sb_armTab;
   private final GenericEntry kP,kI,kD,AbsolutePosition;
+  private final ArmFeedforward m_ArmFeedforward;
   // fix the genericentry import it
 
   /** Creates a new ArmPIDSubsystem. */
@@ -31,38 +33,51 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
     m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
     m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
+    m_ArmFeedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint());
 
-    getController().setTolerance(1);//This is your error and should be a constant that we tweak
+   // ArmFeedforward feedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint())
+
+    getController().setTolerance(0.1);//This is your error and should be a constant that we tweak
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kBrake);
-    m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
+    m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kCurrentLimit);
 
     m_motor2.restoreFactoryDefaults();
     m_motor2.follow(m_motor1);
     m_motor2.setIdleMode(IdleMode.kBrake);
-    m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
+    m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kCurrentLimit);
 
     sb_armTab = Shuffleboard.getTab("Arm");
-    kP = sb_armTab.add("kP", 0).getEntry();
-    kI = sb_armTab.add("kI", 0).getEntry();
-    kD = sb_armTab.add("kD", 0).getEntry();
+    kP = sb_armTab.add("kP", Constants.kArmSubsystem.kP).getEntry();
+    kI = sb_armTab.add("kI", Constants.kArmSubsystem.kI).getEntry();
+    kD = sb_armTab.add("kD", Constants.kArmSubsystem.kD).getEntry();
     AbsolutePosition = sb_armTab.add("AbsolutePosition", 0).getEntry();
+    setPIDFvalues(Constants.kArmSubsystem.kP, Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kD);
     
   }
 
   @Override
   public void useOutput(double speed, double setpoint) {
-    m_motor1.set(speed);
-    m_controller.setSetpoint(setpoint);
+    if (speed > Constants.kArmSubsystem.kLimit){
+      m_motor1.set(Constants.kArmSubsystem.kLimit);
+    }
+    else if (speed < -Constants.kArmSubsystem.kLimit){
+      m_motor1.set(-Constants.kArmSubsystem.kLimit);
+    }
+    else{
+      m_motor1.set(speed);
+    }
+   // m_controller.setSetpoint(setpoint);
+    System.out.println(speed);
   }
 
   @Override
   public double getMeasurement() {
-    double ecd_value = m_encoder.get(); // absolute
+    double ecd_value = m_encoder.getAbsolutePosition(); // absolute
 
     if (ecd_value < 0.3){
-      AbsolutePosition.setDouble(ecd_value);
-      return ecd_value + 1;
+      AbsolutePosition.setDouble(ecd_value + 1);
+      return ecd_value +1;
     }else{
       AbsolutePosition.setDouble(ecd_value);
       return ecd_value;
@@ -79,12 +94,26 @@ public class ArmPIDSubsystem extends PIDSubsystem {
 
   public void setPIDfromshuffleboard(){
     setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
-    System.out.println("kP:" + kP.getDouble(0) + " kI:" + kI.getDouble(0) + " kD:" + kD.getDouble(0));
+    System.out.println("kP:" + m_controller.getP() + " kI:" + kI.getDouble(0) + " kD:" + kD.getDouble(0));
 
   }
 
   public void resetEncoder(){
     m_encoder.reset();
+  }
+
+  public void givevoltage(double speed){
+    m_motor1.setVoltage(getSetpoint());
+    m_motor1.set(speed);
+  }
+
+
+
+  @Override
+  public void periodic() {
+      // TODO Auto-generated method stub
+      super.periodic();
+      getMeasurement();
   }
 
   //public PIDController geController(){

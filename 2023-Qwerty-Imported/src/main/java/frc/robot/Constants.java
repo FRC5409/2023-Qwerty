@@ -37,10 +37,11 @@ public final class Constants {
         public final static int kMotor1ID = 20;
         public final static int kMotor2ID = 21;
         public final static int kEncoderChannel = 0;
-        public final static int kLimit = 40;
+        public final static double kLimit = 0.75;
         public final static double kSpeed = 0.2;
+        public final static int kCurrentLimit = 40;
 
-        public final static double kP = 0;
+        public final static double kP = 10;
         public final static double kI = 0;
         public final static double kD = 0;
         public final static double kHighSetpoint = 0.7;

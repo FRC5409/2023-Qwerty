@@ -30,13 +30,13 @@ public class OldArmSubsystem extends SubsystemBase {
     m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kCoast);
-    m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
+    m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kCurrentLimit);
 
     m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
     m_motor2.restoreFactoryDefaults();
     m_motor2.follow(m_motor1);
     m_motor2.setIdleMode(IdleMode.kCoast);
-    m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kLimit);
+    m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kCurrentLimit);
     
     m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
     m_PidController = new PIDController(0, 0, 0);
