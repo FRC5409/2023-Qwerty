@@ -14,18 +14,24 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
+import edu.wpi.first.networktables.GenericEntry;
 
 public class ArmPIDSubsystem extends PIDSubsystem {
-  private final CANSparkMax m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
-  private final CANSparkMax m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
-  private final DutyCycleEncoder m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
+  private final CANSparkMax m_motor1;
+  private final CANSparkMax m_motor2;
+  private final DutyCycleEncoder m_encoder;
   private final ShuffleboardTab sb_armTab;
-  edu.wpi.first.networktables.GenericEntry kP,kI,kD,AbsolutePosition;
+  private final GenericEntry kP,kI,kD,AbsolutePosition;
   // fix the genericentry import it
 
   /** Creates a new ArmPIDSubsystem. */
   public ArmPIDSubsystem() {
     super(new PIDController(Constants.kArmSubsystem.kP,Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kD));
+
+    m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
+    m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
+    m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
+
     getController().setTolerance(1);//This is your error and should be a constant that we tweak
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kBrake);
@@ -64,10 +70,11 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     // Return the process variable measurement here 
   }
 
-  public void setPIDFvalues(double kP, double kI, double kD){ // add FF
+  public void setPIDFvalues(double kP, double kI, double kD){ // note theres no FF
     m_controller.setP(kP);
     m_controller.setI(kI);
     m_controller.setD(kD);
+
   }
 
   public void setPIDfromshuffleboard(){
@@ -76,15 +83,17 @@ public class ArmPIDSubsystem extends PIDSubsystem {
 
   }
 
-  public double getSetpoint(){
-    // make when setpoint reaches wanted setpoint
-  }
-  // make a get setpoint too
-
   public void resetEncoder(){
     m_encoder.reset();
   }
+
+  //public PIDController geController(){
+  //  return m_controller;
+  //}
+  
 }
+
+
 
 // notes
 // make a command that gets and sets pid in the subsystem

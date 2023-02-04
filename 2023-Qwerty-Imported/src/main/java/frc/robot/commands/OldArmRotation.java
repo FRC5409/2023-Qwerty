@@ -16,7 +16,7 @@ public class OldArmRotation extends PIDCommand {
   public OldArmRotation(double targetPosition, OldArmSubsystem m_arm) {
     super(
         // The controller that the command will use
-        new PIDController(0.01, 0, 0),
+        new PIDController(0, 0, 0),
         // This should return the measurement
         
         m_arm::getPos,

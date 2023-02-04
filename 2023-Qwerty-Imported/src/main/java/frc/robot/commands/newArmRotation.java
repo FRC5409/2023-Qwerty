@@ -6,11 +6,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmPIDSubsystem;
+import edu.wpi.first.math.controller.PIDController;
 
 public class newArmRotation extends CommandBase {
   private final ArmPIDSubsystem sys_arm;
   private double speed;
   private double setpoint;
+
 
   /** Creates a new ArmRotation2. */
   public newArmRotation(ArmPIDSubsystem armPIDSubsystem, double speed, double setpoint) {
@@ -49,6 +51,8 @@ public class newArmRotation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
+    //return getController().atSetpoint();
   }
-}
+
+  }
