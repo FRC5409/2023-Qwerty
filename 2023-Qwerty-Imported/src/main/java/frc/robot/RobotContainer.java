@@ -7,13 +7,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArmDisable;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.UpdatePID;
 import frc.robot.commands.newArmRotation;
 import frc.robot.subsystems.ArmPIDSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -64,8 +63,8 @@ public class RobotContainer {
   private void configureButtonBindings(){
     sys_controller.x().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.8)); // enables and sets to another position
     sys_controller.b().onTrue(new newArmRotation(m_ArmPIDSubsystem, 0.4, 0.5)); //  sets to position
-    sys_controller.y().onTrue(new ArmDisable(m_ArmPIDSubsystem)); // disables the arm
-    sys_controller.a().onTrue(new UpdatePID(m_ArmPIDSubsystem)); // updates PID system
+    sys_controller.y().onTrue(Commands.runOnce(() -> m_ArmPIDSubsystem.disable())); // disables the arm
+    sys_controller.a().onTrue(Commands.runOnce(() -> m_ArmPIDSubsystem.setPIDfromshuffleboard())); // updates PID system
 
   }
   /**
