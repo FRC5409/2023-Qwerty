@@ -26,16 +26,11 @@ public class newArmRotation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    if (!sys_arm.isEnabled()){
-      sys_arm.enable();
-      sys_arm.useOutput(speed, setpoint);
-    }
-    else if (sys_arm.isEnabled()){
-      sys_arm.useOutput(speed, setpoint);
-    }
+    sys_arm.setSetpoint(setpoint);
+    sys_arm.enable();
+   // sys_arm.useOutput(speed, setpoint);
+  
   }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {}
@@ -43,7 +38,7 @@ public class newArmRotation extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    sys_arm.useOutput(0,setpoint);
+    sys_arm.disable();
     System.out.println("ArmRotation");
   }
 
@@ -51,6 +46,4 @@ public class newArmRotation extends CommandBase {
   @Override
   public boolean isFinished() {
     return sys_arm.getController().atSetpoint();
-  }
-
-  }
+  }}
