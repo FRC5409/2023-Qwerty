@@ -9,7 +9,6 @@ import frc.robot.subsystems.ArmPIDSubsystem;
 
 public class newArmRotation extends CommandBase {
   private final ArmPIDSubsystem sys_arm;
-  private double speed;
   private double setpoint;
 
 

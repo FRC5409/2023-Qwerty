@@ -23,19 +23,19 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   private final DutyCycleEncoder m_encoder;
   private final ShuffleboardTab sb_armTab;
   private final GenericEntry kP,kI,kD,AbsolutePosition;
-  private final ArmFeedforward m_ArmFeedforward;
+ // private final ArmFeedforward m_ArmFeedforward;
   // fix the genericentry import it
 
   /** Creates a new ArmPIDSubsystem. */
   public ArmPIDSubsystem() {
-    super(new PIDController(Constants.kArmSubsystem.kP,Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kD));
+    super(new PIDController(Constants.kArmSubsystem.kPID.kP,Constants.kArmSubsystem.kPID.kI, Constants.kArmSubsystem.kPID.kD));
 
     m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
     m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
     m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
-    m_ArmFeedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint());
+  //  m_ArmFeedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint());
 
-   // ArmFeedforward feedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint())
+    ArmFeedforward feedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint());
 
     getController().setTolerance(0.1);//This is your error and should be a constant that we tweak
     m_motor1.restoreFactoryDefaults();
@@ -48,27 +48,26 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kCurrentLimit);
 
     sb_armTab = Shuffleboard.getTab("Arm");
-    kP = sb_armTab.add("kP", Constants.kArmSubsystem.kP).getEntry();
-    kI = sb_armTab.add("kI", Constants.kArmSubsystem.kI).getEntry();
-    kD = sb_armTab.add("kD", Constants.kArmSubsystem.kD).getEntry();
+    kP = sb_armTab.add("kP", Constants.kArmSubsystem.kPID.kP).getEntry();
+    kI = sb_armTab.add("kI", Constants.kArmSubsystem.kPID.kI).getEntry();
+    kD = sb_armTab.add("kD", Constants.kArmSubsystem.kPID.kD).getEntry();
     AbsolutePosition = sb_armTab.add("AbsolutePosition", 0).getEntry();
-    setPIDFvalues(Constants.kArmSubsystem.kP, Constants.kArmSubsystem.kI, Constants.kArmSubsystem.kD);
+    setPIDFvalues(Constants.kArmSubsystem.kPID.kP, Constants.kArmSubsystem.kPID.kI, Constants.kArmSubsystem.kPID.kD);
     
   }
 
   @Override
-  public void useOutput(double speed, double setpoint) {
-    if (speed > Constants.kArmSubsystem.kLimit){
-      m_motor1.set(Constants.kArmSubsystem.kLimit);
+  public void useOutput(double voltage, double setpoint) {
+    if (voltage > Constants.kArmSubsystem.kVoltageLimit){
+      m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit);
     }
-    else if (speed < -Constants.kArmSubsystem.kLimit){
-      m_motor1.set(-Constants.kArmSubsystem.kLimit);
+    else if (voltage < -Constants.kArmSubsystem.kVoltageLimit){
+      m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit);
     }
     else{
-      m_motor1.set(speed);
+      m_motor1.setVoltage(voltage); // + m_ArmFeedforward.calculate(setpoint);
     }
-   // m_controller.setSetpoint(setpoint);
-    System.out.println(speed);
+    System.out.println(voltage);
   }
 
   @Override
@@ -125,7 +124,6 @@ public class ArmPIDSubsystem extends PIDSubsystem {
 
 
 // notes
-// make a command that gets and sets pid in the subsystem
-// make three buttons, one that enables and sets to a position, one that sets it to another position, one that disables it 
-// use if not isenable, enable for the button 
-
+// convert speed to voltage 
+// make a feed forward 
+// do sisid ask jason
