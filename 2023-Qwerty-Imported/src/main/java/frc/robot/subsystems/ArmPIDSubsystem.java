@@ -62,7 +62,7 @@ public class ArmPIDSubsystem extends PIDSubsystem {
       m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit);
     }
     else if (voltage < -Constants.kArmSubsystem.kVoltageLimit){
-      m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit);
+      m_motor1.setVoltage(-Constants.kArmSubsystem.kVoltageLimit);
     }
     else{
       m_motor1.setVoltage(voltage); // + m_ArmFeedforward.calculate(setpoint);
@@ -88,13 +88,11 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     m_controller.setP(kP);
     m_controller.setI(kI);
     m_controller.setD(kD);
-
   }
 
   public void setPIDfromshuffleboard(){
     setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
     System.out.println("kP:" + m_controller.getP() + " kI:" + kI.getDouble(0) + " kD:" + kD.getDouble(0));
-
   }
 
   public void resetEncoder(){
