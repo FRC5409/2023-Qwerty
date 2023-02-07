@@ -40,6 +40,7 @@ public final class Constants {
        // public final static double kLimit = 0.75;
         public final static double kVoltageLimit = 0.9;
         public final static int kCurrentLimit = 40;
+        public final static double kPositionTolerance = 0.1;
 
         public final static double kHighSetpoint = 0.7;
         public final static double kLowSetpoint = 0.5;
@@ -50,12 +51,6 @@ public final class Constants {
             public final static double kD = 0;
         }
 
-        public static class sysID{
-            public final static double ks = 0;
-            public final static double kg = 0;
-            public final static double kv = 0;
-            public final static double ka = 0;
-        }
-
+    
     }
 }

@@ -23,7 +23,7 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   private final DutyCycleEncoder m_encoder;
   private final ShuffleboardTab sb_armTab;
   private final GenericEntry kP,kI,kD,AbsolutePosition;
- // private final ArmFeedforward m_ArmFeedforward;
+  private final ArmFeedforward m_ArmFeedforward;
   // fix the genericentry import it
 
   /** Creates a new ArmPIDSubsystem. */
@@ -33,11 +33,9 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
     m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
     m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
-  //  m_ArmFeedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint());
+    m_ArmFeedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint()); // need to put values in
 
-    ArmFeedforward feedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint());
-
-    getController().setTolerance(0.1);//This is your error and should be a constant that we tweak
+    getController().setTolerance(Constants.kArmSubsystem.kPositionTolerance);
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kBrake);
     m_motor1.setSmartCurrentLimit(Constants.kArmSubsystem.kCurrentLimit);
@@ -47,7 +45,7 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     m_motor2.setIdleMode(IdleMode.kBrake);
     m_motor2.setSmartCurrentLimit(Constants.kArmSubsystem.kCurrentLimit);
 
-    sb_armTab = Shuffleboard.getTab("Arm");
+    sb_armTab = Shuffleboard.getTab("Arm"); // shuffleboard tab and values
     kP = sb_armTab.add("kP", Constants.kArmSubsystem.kPID.kP).getEntry();
     kI = sb_armTab.add("kI", Constants.kArmSubsystem.kPID.kI).getEntry();
     kD = sb_armTab.add("kD", Constants.kArmSubsystem.kPID.kD).getEntry();
@@ -57,24 +55,24 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   }
 
   @Override
-  public void useOutput(double voltage, double setpoint) {
+  public void useOutput(double voltage, double setpoint) { // outputs the voltage 
     if (voltage > Constants.kArmSubsystem.kVoltageLimit){
-      m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit);
+      m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit+ m_ArmFeedforward.calculate(voltage, setpoint));
     }
     else if (voltage < -Constants.kArmSubsystem.kVoltageLimit){
-      m_motor1.setVoltage(-Constants.kArmSubsystem.kVoltageLimit);
+      m_motor1.setVoltage(-Constants.kArmSubsystem.kVoltageLimit + m_ArmFeedforward.calculate(voltage, setpoint));
     }
     else{
-      m_motor1.setVoltage(voltage); // + m_ArmFeedforward.calculate(setpoint);
+      m_motor1.setVoltage(voltage + m_ArmFeedforward.calculate(voltage, setpoint));
     }
     System.out.println(voltage);
   }
 
   @Override
-  public double getMeasurement() {
-    double ecd_value = m_encoder.getAbsolutePosition(); // absolute
+  public double getMeasurement() { // gets absolute position and returns the value 
+    double ecd_value = m_encoder.getAbsolutePosition(); 
 
-    if (ecd_value < 0.3){
+    if (ecd_value < 0.3){  // used to fix the weird values from encoder
       AbsolutePosition.setDouble(ecd_value + 1);
       return ecd_value +1;
     }else{
@@ -84,13 +82,13 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     // Return the process variable measurement here 
   }
 
-  public void setPIDFvalues(double kP, double kI, double kD){ // note theres no FF
+  public void setPIDFvalues(double kP, double kI, double kD){ // sets PID values
     m_controller.setP(kP);
     m_controller.setI(kI);
     m_controller.setD(kD);
   }
 
-  public void setPIDfromshuffleboard(){
+  public void setPIDfromshuffleboard(){ // sets PID values for shuffleboard and runs on a button
     setPIDFvalues(kP.getDouble(0), kI.getDouble(0), kD.getDouble(0));
     System.out.println("kP:" + m_controller.getP() + " kI:" + kI.getDouble(0) + " kD:" + kD.getDouble(0));
   }
@@ -99,23 +97,11 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     m_encoder.reset();
   }
 
-  public void givevoltage(double speed){
-    m_motor1.setVoltage(getSetpoint());
-    m_motor1.set(speed);
-  }
-
-
-
   @Override
-  public void periodic() {
-      // TODO Auto-generated method stub
+  public void periodic() { // gets the encoder value
       super.periodic();
       getMeasurement();
   }
-
-  //public PIDController geController(){
-  //  return m_controller;
-  //}
   
 }
 
@@ -124,4 +110,3 @@ public class ArmPIDSubsystem extends PIDSubsystem {
 // notes
 // convert speed to voltage 
 // make a feed forward 
-// do sisid ask jason
