@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.MoveArm;
@@ -13,6 +15,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants.kArm;
 import frc.robot.Constants.kCANdle.AnimationTypes;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CandleCommand;
 import frc.robot.subsystems.Arm;
@@ -27,7 +30,7 @@ import frc.robot.subsystems.CandleSubsystem;
 public class RobotContainer {
   //Subsystems
   private static Drivetrain sys_drivetrain;
-  private final CandleSubsystem sys_candleSubsystem; 
+  public final CandleSubsystem sys_candleSubsystem; 
   private final Arm sys_arm;
 
   //commands
@@ -96,5 +99,17 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return cmd_exampleCommand;
+  }
+
+  public void startAnimation() {
+    if (DriverStation.getAlliance() == Alliance.Red) {
+      Commands.runOnce(sys_candleSubsystem::setRed, sys_candleSubsystem).ignoringDisable(true).schedule();;
+    } else {
+      Commands.runOnce(sys_candleSubsystem::setBlue, sys_candleSubsystem).ignoringDisable(true).schedule();;
+    }
+  }
+
+  public void stopAnimation() {
+    Commands.runOnce(sys_candleSubsystem::normalAnimation, sys_candleSubsystem).schedule();
   }
 }

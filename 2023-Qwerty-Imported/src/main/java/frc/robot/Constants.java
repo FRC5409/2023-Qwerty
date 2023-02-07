@@ -36,7 +36,8 @@ public final class Constants {
             public final static int LEDCount = 68;
         }
         public static class kColors {
-            public final static int[] idle = {252, 144 , 3};
+            public final static int[] idle = {252, 144 , 3}; //{252, 144 , 3}
+            public final static int[] idleOff = {0, 0, 255}; //alliance station
             public final static int[] cube = {142, 39, 245};
             public final static int[] cone = {237, 120, 0};
 
@@ -47,7 +48,7 @@ public final class Constants {
             public final static double kFrequencySpeed = 20;
         }
 
-        public enum AnimationTypes{
+        public enum AnimationTypes {
             Static,
             Rainbow,
             ColorFlow,

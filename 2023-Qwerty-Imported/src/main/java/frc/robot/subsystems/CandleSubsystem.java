@@ -5,7 +5,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.led.CANdle;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,6 +36,8 @@ public class CandleSubsystem extends SubsystemBase {
   
   private double timer = 0;
   private double animationTime = 0;
+
+  private int[] LEDOff = {0, 0, 0};
 
   public CandleSubsystem() {
     //setting Candle CANID
@@ -101,10 +106,18 @@ public class CandleSubsystem extends SubsystemBase {
       case sinWave:
         candle.animate(null, currentAnimationSlot);
         currentAnimationSlot = 5;
+        LEDOff[0] = r;
+        LEDOff[1] = g;
+        LEDOff[2] = b;
+
         break;
       case sinFlow:
         candle.animate(null, currentAnimationSlot);
         currentAnimationSlot = 6;
+        LEDOff[0] = r;
+        LEDOff[1] = g;
+        LEDOff[2] = b;
+
         break;
     }
     //setting the LEDs on the candle to off
@@ -134,15 +147,16 @@ public class CandleSubsystem extends SubsystemBase {
         }
       }
     } else if (currentAnimationSlot == 6) {
-      animationTime = Math.floor(Math.sin(timer * kCANdle.kColors.kFrequency) * kCANdle.kColors.kFrequencySpeed);
-      if (animationTime != 0) {
-        animationTime += animationTime / Math.abs(animationTime);
+      animationTime = Math.round(Math.sin(timer * kCANdle.kColors.kFrequency) * kCANdle.kColors.kFrequencySpeed);
+      //find how to get these values
+      if (Math.abs(animationTime) == 19) {
+        timer += 10;
       }
       for (int i = 8; i < kCANdle.kConfig.LEDCount; i++) {
         if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
           candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
         } else {
-          candle.setLEDs(0, 0, 0, 0, i, 1);
+          candle.setLEDs((int) (LEDOff[0] * brightness), (int) (LEDOff[1] * brightness), (int) (LEDOff[2] * brightness), 0, i, 1);
         }
       }
     }
@@ -163,5 +177,24 @@ public class CandleSubsystem extends SubsystemBase {
 
   public double constrain(double n, double low, double high) {
     return Math.max(Math.min(n, high), low);
+  }
+
+  public void setBlue() {
+    configBrightness(1);
+    setAnimation(AnimationTypes.sinFlow, 0, 0, 255);
+  }
+
+  public void setRed() {
+    configBrightness(1);
+    setAnimation(AnimationTypes.sinFlow, 255, 0, 0);
+  }
+
+  public void normalAnimation() {
+    configBrightness(1);
+    if (DriverStation.getAlliance() == Alliance.Red) {
+      setAnimation(AnimationTypes.Larson, 255, 0, 0);
+    } else {
+      setAnimation(AnimationTypes.Larson, 0, 0, 255);
+    }
   }
 }
