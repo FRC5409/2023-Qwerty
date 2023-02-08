@@ -33,11 +33,9 @@ public final class Constants {
             Clear
         }
     }
-    public static class kArmSubsystem {
-        public final static int kMotor1ID = 20;
-        public final static int kMotor2ID = 21;
-        public final static int kEncoderChannel = 1;
-        public final static int kLimit = 30;
-        public final static double kSpeed = 0.2;
+    public static class kRotationSubsystem{
+        public final static int kmotorID = 18;
+        public final static int kencoder = 8;
     }
-}
+    }
+
