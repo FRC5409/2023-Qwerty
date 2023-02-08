@@ -23,7 +23,6 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   private final DutyCycleEncoder m_encoder;
   private final ShuffleboardTab sb_armTab;
   private final GenericEntry kP,kI,kD,AbsolutePosition;
-  private final ArmFeedforward m_ArmFeedforward;
   // fix the genericentry import it
 
   /** Creates a new ArmPIDSubsystem. */
@@ -33,8 +32,7 @@ public class ArmPIDSubsystem extends PIDSubsystem {
     m_motor1 = new CANSparkMax(Constants.kArmSubsystem.kMotor1ID, MotorType.kBrushless);
     m_motor2 = new CANSparkMax(Constants.kArmSubsystem.kMotor2ID, MotorType.kBrushless);
     m_encoder = new DutyCycleEncoder(Constants.kArmSubsystem.kEncoderChannel);
-    m_ArmFeedforward = new ArmFeedforward(getSetpoint(), getSetpoint(), getMeasurement(), getSetpoint()); // need to put values in
-
+   
     getController().setTolerance(Constants.kArmSubsystem.kPositionTolerance);
     m_motor1.restoreFactoryDefaults();
     m_motor1.setIdleMode(IdleMode.kBrake);
@@ -57,13 +55,13 @@ public class ArmPIDSubsystem extends PIDSubsystem {
   @Override
   public void useOutput(double voltage, double setpoint) { // outputs the voltage 
     if (voltage > Constants.kArmSubsystem.kVoltageLimit){
-      m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit+ m_ArmFeedforward.calculate(voltage, setpoint));
+      m_motor1.setVoltage(Constants.kArmSubsystem.kVoltageLimit+ calculateFF());
     }
     else if (voltage < -Constants.kArmSubsystem.kVoltageLimit){
-      m_motor1.setVoltage(-Constants.kArmSubsystem.kVoltageLimit + m_ArmFeedforward.calculate(voltage, setpoint));
+      m_motor1.setVoltage(-Constants.kArmSubsystem.kVoltageLimit + calculateFF());
     }
     else{
-      m_motor1.setVoltage(voltage + m_ArmFeedforward.calculate(voltage, setpoint));
+      m_motor1.setVoltage(voltage + calculateFF());
     }
     System.out.println(voltage);
   }
@@ -95,6 +93,15 @@ public class ArmPIDSubsystem extends PIDSubsystem {
 
   public void resetEncoder(){
     m_encoder.reset();
+  }
+
+  public double calculateFF(){
+    return Constants.kArmSubsystem.kg*Math.cos(getAngle());
+    
+  }
+
+  public double getAngle(){
+    return 0;
   }
 
   @Override
