@@ -142,7 +142,7 @@ public class CandleSubsystem extends SubsystemBase {
           if ((i + Math.floor(animationTime / kCANdle.kColors.kSpeed)) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
             candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
           } else {
-            candle.setLEDs(0, 0, 0, 0, i, 1);
+            candle.setLEDs((int) (LEDOff[0] * brightness), (int) (LEDOff[1] * brightness), (int) (LEDOff[2] * brightness), 0, i, 1);
           }
         }
       }
@@ -192,7 +192,7 @@ public class CandleSubsystem extends SubsystemBase {
   public void normalAnimation() {
     configBrightness(1);
     if (DriverStation.getAlliance() == Alliance.Red) {
-      setAnimation(AnimationTypes.Larson, 255, 0, 0);
+      setAnimation(AnimationTypes.Larson, 200, 0, 0);
     } else {
       setAnimation(AnimationTypes.Larson, 0, 0, 255);
     }

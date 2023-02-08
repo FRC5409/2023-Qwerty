@@ -31,18 +31,19 @@ public final class Constants {
     }
 
     public static class kCANdle {
+        public final static int staticTime = 750;
         public static class kConfig {
             public final static int CANdleCAN = 19;
             public final static int LEDCount = 68;
         }
         public static class kColors {
-            public final static int[] idle = {252, 144 , 3}; //{252, 144 , 3}
-            public final static int[] idleOff = {0, 0, 255}; //alliance station
+            public final static int[] idle = {230, 124 , 3}; //{252, 144 , 3}
+            // public final static int[] idleOff = {0, 0, 255}; //alliance station
             public final static int[] cube = {142, 39, 245};
             public final static int[] cone = {237, 120, 0};
 
             public final static int LEDSinCount = 8;
-            public final static int kSpeed = 1;
+            public final static int kSpeed = 2;
 
             public final static double kFrequency = 0.025;
             public final static double kFrequencySpeed = 20;

@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants.kCANdle;
 import frc.robot.Constants.kCANdle.AnimationTypes;
 import frc.robot.subsystems.CandleSubsystem;
 
@@ -14,7 +14,8 @@ public class CandleCommand extends CommandBase {
 
   private double brightness;
   private int RGB_R, RGB_G, RGB_B;
-  private AnimationTypes sys_toChange; 
+  private AnimationTypes sys_toChange;
+  private double timer; 
 
   /** Creates a new CandleCommand. */
   public CandleCommand(CandleSubsystem candleSubsystem, double setBrightness, int r, int g, int b, AnimationTypes tochange){
@@ -25,6 +26,7 @@ public class CandleCommand extends CommandBase {
     RGB_R = r;
     RGB_G = g;
     RGB_B = b;
+    addRequirements(sys_candlesubystem);
   }
 
   // Called when the command is initially scheduled.
@@ -32,19 +34,24 @@ public class CandleCommand extends CommandBase {
   public void initialize() {
     sys_candlesubystem.configBrightness(brightness);
     sys_candlesubystem.setAnimation(sys_toChange, RGB_R, RGB_G, RGB_B);
+    timer = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    timer++;
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    sys_candlesubystem.normalAnimation();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return timer >= kCANdle.staticTime;
   }
 }
