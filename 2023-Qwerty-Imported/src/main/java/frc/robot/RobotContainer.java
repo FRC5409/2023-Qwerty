@@ -103,9 +103,9 @@ public class RobotContainer {
 
   public void startAnimation() {
     if (DriverStation.getAlliance() == Alliance.Red) {
-      Commands.runOnce(sys_candleSubsystem::setRed, sys_candleSubsystem).ignoringDisable(true).schedule();;
+      Commands.runOnce(sys_candleSubsystem::setRed, sys_candleSubsystem).ignoringDisable(true).schedule();
     } else {
-      Commands.runOnce(sys_candleSubsystem::setBlue, sys_candleSubsystem).ignoringDisable(true).schedule();;
+      Commands.runOnce(sys_candleSubsystem::setBlue, sys_candleSubsystem).ignoringDisable(true).schedule();
     }
   }
 

@@ -34,7 +34,9 @@ public final class Constants {
         public final static int staticTime = 750;
         public static class kConfig {
             public final static int CANdleCAN = 19;
-            public final static int LEDCount = 68;
+            public final static int LEDCount = 92;
+
+            public final static int LEDLeftRightCount = 15;
         }
         public static class kColors {
             public final static int[] idle = {230, 124 , 3}; //{252, 144 , 3}
