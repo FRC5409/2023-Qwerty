@@ -174,6 +174,7 @@ public class CandleSubsystem extends SubsystemBase {
       //new animation for robot arm
 
       animationTime = Math.round(Math.sin(timer * kCANdle.kColors.kFrequency) * kCANdle.kColors.kFrequencySpeed);
+      // animationTime -= 0.5;
 
       int offset = 23;
 
@@ -199,16 +200,13 @@ public class CandleSubsystem extends SubsystemBase {
 
       //inner two
 
-
-      //TODO: make sure this is not bad
-
-      // for (int i = kCANdle.kConfig.LEDOutter + offset; i < kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset; i++) {
-      //   if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
-      //     LEDTurnOnAt(i, brightness);
-      //   } else {
-      //     LEDTurnOffAt(i, brightness);
-      //   }
-      // }
+      for (int i = kCANdle.kConfig.LEDOutter + offset; i < kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset; i++) {
+        if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
+          LEDTurnOnAt(i, brightness);
+        } else {
+          LEDTurnOffAt(i, brightness);
+        }
+      }
 
       for (int i = kCANdle.kConfig.LEDOutter + offset + (kCANdle.kConfig.LEDInnerRight - kCANdle.kConfig.LEDInnerLeft); i < kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset; i++) {
         if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
@@ -228,12 +226,20 @@ public class CandleSubsystem extends SubsystemBase {
 
   } else if (currentAnimationSlot == 7) {
     //charged up
-    if (animationTime % 10 == 0) {
+    if (animationTime % kCANdle.kColors.kChargeSpeed == 0) {
       LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
-      LEDTurnOffAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 6 + currentChargeLocation, 1);
+      LEDTurnOffAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
+      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation >= 8) {
+        LEDTurnOffAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
+        LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + 10) - currentChargeLocation, 1);
+      }
       currentChargeLocation++;
       LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
-      LEDTurnOnAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 6 + currentChargeLocation, 1);
+      LEDTurnOnAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
+      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation >= 8) {
+        LEDTurnOnAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
+        LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + 10) - currentChargeLocation, 1);
+      }
     if (currentChargeLocation == kCANdle.kConfig.LEDInnerLeft - maxCharge + 1) {
         currentChargeLocation = 1;
         animationTime = 1;
@@ -285,12 +291,19 @@ public class CandleSubsystem extends SubsystemBase {
     setAnimation(AnimationTypes.sinFlow, 255, 0, 0);
   }
 
+  public void setCharged() {
+    configBrightness(1);
+    setAnimation(AnimationTypes.chargedUp, 0, 0, 0);
+  }
+
   public void normalAnimation() {
     configBrightness(1);
-    if (DriverStation.getAlliance() == Alliance.Red) {
-      setAnimation(AnimationTypes.Larson, 200, 0, 0);
-    } else {
-      setAnimation(AnimationTypes.Larson, 0, 0, 255);
-    }
+    // if (DriverStation.getAlliance() == Alliance.Red) {
+    //   setAnimation(AnimationTypes.Larson, 200, 0, 0);
+    // } else {
+    //   setAnimation(AnimationTypes.Larson, 0, 0, 255);
+    // }
+    candle.setLEDs(0, 0, 0, 0, 8, kCANdle.kConfig.LEDCount);
+    setCharged();
   }
 }
