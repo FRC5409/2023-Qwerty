@@ -34,9 +34,11 @@ public final class Constants {
         public final static int staticTime = 750;
         public static class kConfig {
             public final static int CANdleCAN = 19;
-            public final static int LEDCount = 92;
+            public final static int LEDCount = 94;
 
-            public final static int LEDLeftRightCount = 15;
+            public final static int LEDInnerRight = 30;
+            public final static int LEDInnerLeft = 26;
+            public final static int LEDOutter = 15;
         }
         public static class kColors {
             public final static int[] idle = {230, 124 , 3}; //{252, 144 , 3}
@@ -49,6 +51,8 @@ public final class Constants {
 
             public final static double kFrequency = 0.025;
             public final static double kFrequencySpeed = 20;
+
+            public final static int kChargeSpeed = 10;
         }
 
         public enum AnimationTypes {
@@ -58,8 +62,10 @@ public final class Constants {
             Larson,
             Twinkle,
             Clear,
+            //custom
             sinWave,
-            sinFlow
+            sinFlow,
+            chargedUp
         }
     }
 

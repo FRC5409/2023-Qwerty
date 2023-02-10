@@ -39,13 +39,16 @@ public class CandleSubsystem extends SubsystemBase {
 
   private int[] LEDOff = {0, 0, 0};
 
+  private int currentChargeLocation = 0;
+  private int maxCharge = 0;
+
   public CandleSubsystem() {
     //setting Candle CANID
     candle = new CANdle(Constants.kCANdle.kConfig.CANdleCAN);
 
     CANdleConfiguration configCandle = new CANdleConfiguration();
-    configCandle.stripType = LEDStripType.GRBW;
-    configCandle.brightnessScalar = .5;
+    configCandle.stripType = LEDStripType.RGB;
+    configCandle.brightnessScalar = 0.5;
     candle.configAllSettings(configCandle);
     candle.animate(null, 0);
     candle.setLEDs(0, 0, 0, 0, 0, 8);
@@ -109,7 +112,6 @@ public class CandleSubsystem extends SubsystemBase {
         LEDOff[0] = r;
         LEDOff[1] = g;
         LEDOff[2] = b;
-
         break;
       case sinFlow:
         candle.animate(null, currentAnimationSlot);
@@ -117,7 +119,14 @@ public class CandleSubsystem extends SubsystemBase {
         LEDOff[0] = r;
         LEDOff[1] = g;
         LEDOff[2] = b;
-
+        break;
+      case chargedUp:
+        candle.animate(null, currentAnimationSlot);
+        currentAnimationSlot = 7;
+        animationTime = 0;
+        for (int i = 0; i < 3; i++) {
+          LEDOff[i] = 0;
+        }
         break;
     }
     //setting the LEDs on the candle to off
@@ -147,6 +156,7 @@ public class CandleSubsystem extends SubsystemBase {
         }
       }
     } else if (currentAnimationSlot == 6) {
+      //old animation
       // animationTime = Math.round(Math.sin(timer * kCANdle.kColors.kFrequency) * kCANdle.kColors.kFrequencySpeed);
       // //find how to get these values
       // if (Math.abs(animationTime) == 19) {
@@ -161,65 +171,85 @@ public class CandleSubsystem extends SubsystemBase {
       // }
 
 
+      //new animation for robot arm
+
       animationTime = Math.round(Math.sin(timer * kCANdle.kColors.kFrequency) * kCANdle.kColors.kFrequencySpeed);
+
+      int offset = 23;
 
       if (Math.abs(animationTime) == 19) {
         timer += 10;
       }
 
-      for (int i = 8; i < kCANdle.kConfig.LEDLeftRightCount + 8; i++) {
+      for (int i = 8; i < kCANdle.kConfig.LEDOutter + 8; i++) {
         if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
-          // candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
           LEDTurnOnAt(i, brightness);
         } else {
-          // candle.setLEDs((int) (LEDOff[0] * brightness), (int) (LEDOff[1] * brightness), (int) (LEDOff[2] * brightness), 0, i, 1);
           LEDTurnOffAt(i, brightness);
         }
       }
 
-      // for (int i = kCANdle.kConfig.LEDLeftRightCount + 9; i < kCANdle.kConfig.LEDLeftRightCount * 2 + 8; i++) {
-      //   if ((i - animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
-      //     // candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
+      for (int i = offset; i < kCANdle.kConfig.LEDOutter + offset; i++) {
+        if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
+          LEDTurnOnAt(i, brightness);
+        } else {
+          LEDTurnOffAt(i, brightness);
+        }
+      }
+
+      //inner two
+
+
+      //TODO: make sure this is not bad
+
+      // for (int i = kCANdle.kConfig.LEDOutter + offset; i < kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset; i++) {
+      //   if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
       //     LEDTurnOnAt(i, brightness);
       //   } else {
-      //     // candle.setLEDs((int) (LEDOff[0] * brightness), (int) (LEDOff[1] * brightness), (int) (LEDOff[2] * brightness), 0, i, 1);
       //     LEDTurnOffAt(i, brightness);
       //   }
       // }
 
-      // for (int i = 8; i < kCANdle.kConfig.LEDLeftRightCount + 8; i++) {
-      //   if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
-      //     // candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
-      //     LEDTurnOnAt(i + kCANdle.kConfig.LEDLeftRightCount, brightness);
-      //   } else {
-      //     // candle.setLEDs((int) (LEDOff[0] * brightness), (int) (LEDOff[1] * brightness), (int) (LEDOff[2] * brightness), 0, i, 1);
-      //     LEDTurnOffAt(i + kCANdle.kConfig.LEDLeftRightCount, brightness);
-      //   }
-      // }
-
-      for (int i = 8; i < kCANdle.kConfig.LEDLeftRightCount + 8; i++) {
+      for (int i = kCANdle.kConfig.LEDOutter + offset + (kCANdle.kConfig.LEDInnerRight - kCANdle.kConfig.LEDInnerLeft); i < kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset; i++) {
         if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
-          // candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
-          LEDTurnOnAt((kCANdle.kConfig.LEDLeftRightCount * 2 + 8) - i, brightness);
+          LEDTurnOnAt((kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset - 2) * 2 - i, brightness);
         } else {
-          // candle.setLEDs((int) (LEDOff[0] * brightness), (int) (LEDOff[1] * brightness), (int) (LEDOff[2] * brightness), 0, i, 1);
-          LEDTurnOffAt((kCANdle.kConfig.LEDLeftRightCount * 2 + 8) - i, brightness);
+          LEDTurnOffAt((kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset - 2) * 2 - i, brightness);
         }
       }
 
-      for (int i = kCANdle.kConfig.LEDLeftRightCount * 2 + 9; i < kCANdle.kConfig.LEDCount; i++) {
+      for (int i = kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset; i < kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset + kCANdle.kConfig.LEDInnerLeft; i++) {
         if ((i + animationTime) % (kCANdle.kColors.LEDSinCount * 2) < kCANdle.kColors.LEDSinCount) {
-          // candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, i, 1);
-          LEDTurnOnAt(i, brightness);
+          LEDTurnOnAt((kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset + 26 - 2) * 2 - i, brightness);
         } else {
-          // candle.setLEDs((int) (LEDOff[0] * brightness), (int) (LEDOff[1] * brightness), (int) (LEDOff[2] * brightness), 0, i, 1);
-          LEDTurnOffAt(i, brightness);
+          LEDTurnOffAt((kCANdle.kConfig.LEDInnerRight + kCANdle.kConfig.LEDOutter + offset + 26 - 2) * 2 - i, brightness);
         }
       }
+
+  } else if (currentAnimationSlot == 7) {
+    //charged up
+    if (animationTime % 10 == 0) {
+      LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
+      LEDTurnOffAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 6 + currentChargeLocation, 1);
+      currentChargeLocation++;
+      LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
+      LEDTurnOnAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 6 + currentChargeLocation, 1);
+    if (currentChargeLocation == kCANdle.kConfig.LEDInnerLeft - maxCharge + 1) {
+        currentChargeLocation = 1;
+        animationTime = 1;
+        maxCharge++;
+    } else if (currentChargeLocation > kCANdle.kConfig.LEDInnerLeft) {
+        maxCharge = 0;
+        currentChargeLocation = 1;
+        candle.setLEDs(0, 0, 0, 0, 8, kCANdle.kConfig.LEDCount);
+      }
+    } else {
+      animationTime++;
     }
-    SmartDashboard.putNumber("CANdle Temp: ", candle.getTemperature());
-    SmartDashboard.putNumber("Candle Brightness", brightness);
   }
+  SmartDashboard.putNumber("CANdle Temp: ", candle.getTemperature());
+  SmartDashboard.putNumber("Candle Brightness", brightness);
+}
 
   public void LEDTurnOnAt(int index, double brightness) {
     candle.setLEDs((int) (kColors.idle[0] * brightness), (int) (kColors.idle[1] * brightness), (int) (kColors.idle[2] * brightness), 0, index, 1);
