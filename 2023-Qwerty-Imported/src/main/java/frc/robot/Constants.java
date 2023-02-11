@@ -41,7 +41,7 @@ public final class Constants {
             public final static int LEDOutter = 15;
         }
         public static class kColors {
-            public final static int[] idle = {255, 114 , 0}; //{252, 144 , 3}
+            public final static int[] idle = {255, 134 , 0}; //{252, 144 , 3}
             // public final static int[] idleOff = {0, 0, 255}; //alliance station
             public final static int[] cube = {142, 39, 245};
             public final static int[] cone = {237, 120, 0};

@@ -106,6 +106,7 @@ public class CandleSubsystem extends SubsystemBase {
         configColor(0, 0, 0);
         candle.animate(twinkleAnimation, 4);
         break;
+      //Custom animations
       case sinWave:
         candle.animate(null, currentAnimationSlot);
         currentAnimationSlot = 5;
@@ -186,16 +187,16 @@ public class CandleSubsystem extends SubsystemBase {
       for (int i = 0; i < 2; i++) {
       LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
       LEDTurnOffAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
-      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation >= 8) {
+      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation > 8) {
         LEDTurnOffAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
-        LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + 10) - currentChargeLocation, 1);
+        LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + 9) - currentChargeLocation, 1);
       }
       currentChargeLocation++;
       LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
       LEDTurnOnAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
-      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation >= 8) {
+      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation > 8) {
         LEDTurnOnAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
-        LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + 10) - currentChargeLocation, 1);
+        LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + 9) - currentChargeLocation, 1);
       }
       if (currentChargeLocation == kCANdle.kConfig.LEDInnerLeft - maxCharge + 1) {
         currentChargeLocation = 1;
@@ -266,7 +267,7 @@ public class CandleSubsystem extends SubsystemBase {
 
   public void setRed() {
     configBrightness(1);
-    setAnimation(AnimationTypes.sinFlow, 255, 0, 0);
+    setAnimation(AnimationTypes.sinFlow, 150, 0, 0);
   }
 
   public void setCharged() {
@@ -277,11 +278,15 @@ public class CandleSubsystem extends SubsystemBase {
   public void normalAnimation() {
     configBrightness(1);
     // if (DriverStation.getAlliance() == Alliance.Red) {
-    //   setAnimation(AnimationTypes.Larson, 200, 0, 0);
+    //   setAnimation(AnimationTypes.ColorFlow, 200, 0, 0);
     // } else {
-    //   setAnimation(AnimationTypes.Larson, 0, 0, 255);
+    //   setAnimation(AnimationTypes.ColorFlow, 0, 0, 255);
     // }
+    setAnimation(AnimationTypes.ColorFlow, kCANdle.kColors.idle[0], kCANdle.kColors.idle[1], kCANdle.kColors.idle[2]);
     candle.setLEDs(0, 0, 0, 0, 8, kCANdle.kConfig.LEDCount);
-    setCharged();
+  }
+
+  public int getCurrentAnimation() {
+    return currentAnimationSlot;
   }
 }
