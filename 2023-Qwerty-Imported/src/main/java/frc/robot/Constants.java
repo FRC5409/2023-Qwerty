@@ -47,12 +47,12 @@ public final class Constants {
             public final static int[] cone = {237, 120, 0};
 
             public final static int LEDSinCount = 8;
-            public final static int kSpeed = 2;
+            public final static double kSpeed = 0.5;
 
             public final static double kFrequency = 0.025;
             public final static double kFrequencySpeed = 20;
 
-            public final static int kChargeSpeed = 10;
+            public final static int kChargeSpeed = 4;
         }
 
         public enum AnimationTypes {
