@@ -185,29 +185,29 @@ public class CandleSubsystem extends SubsystemBase {
     } else if (currentAnimationSlot == 7) {
       //charged up
       for (int i = 0; i < 2; i++) {
-      LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
-      LEDTurnOffAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
-      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation > 8) {
-        LEDTurnOffAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
-        LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + 9) - currentChargeLocation, 1);
-      }
-      currentChargeLocation++;
-      LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
-      LEDTurnOnAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
-      if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation > 8) {
-        LEDTurnOnAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
-        LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + 9) - currentChargeLocation, 1);
-      }
-      if (currentChargeLocation == kCANdle.kConfig.LEDInnerLeft - maxCharge + 1) {
-        currentChargeLocation = 1;
-        maxCharge++;
-      } else if (currentChargeLocation > kCANdle.kConfig.LEDInnerLeft) {
-        maxCharge = 0;
-        currentChargeLocation = 1;
-        candle.setLEDs(0, 0, 0, 0, 8, kCANdle.kConfig.LEDCount);
+        LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
+        LEDTurnOffAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
+        if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation > 8) {
+          LEDTurnOffAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
+          LEDTurnOffAt((kCANdle.kConfig.LEDOutter * 2 + 9) - currentChargeLocation, 1);
+        }
+        currentChargeLocation++;
+        LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 9) - currentChargeLocation, 1);
+        LEDTurnOnAt(kCANdle.kConfig.LEDOutter * 2 + kCANdle.kConfig.LEDInnerRight + 2 + currentChargeLocation, 1);
+        if ((kCANdle.kConfig.LEDOutter + 9) - currentChargeLocation > 8) {
+          LEDTurnOnAt((kCANdle.kConfig.LEDOutter + 6) - currentChargeLocation, 1);
+          LEDTurnOnAt((kCANdle.kConfig.LEDOutter * 2 + 9) - currentChargeLocation, 1);
+        }
+        if (currentChargeLocation == kCANdle.kConfig.LEDInnerLeft - maxCharge + 1) {
+          currentChargeLocation = 1;
+          maxCharge++;
+        } else if (currentChargeLocation > kCANdle.kConfig.LEDInnerLeft) {
+          maxCharge = 0;
+          currentChargeLocation = 1;
+          candle.setLEDs(0, 0, 0, 0, 8, kCANdle.kConfig.LEDCount);
+        }
       }
     }
-  }
     SmartDashboard.putNumber("CANdle Temp: ", candle.getTemperature());
     SmartDashboard.putNumber("Candle Brightness", brightness);
   }

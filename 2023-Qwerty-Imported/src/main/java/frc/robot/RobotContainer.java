@@ -31,7 +31,7 @@ public class RobotContainer {
   //Subsystems
   private static Drivetrain sys_drivetrain;
   public final CandleSubsystem sys_candleSubsystem; 
-  private final Arm sys_arm;
+  // private final Arm sys_arm;
 
   //commands
   private static ExampleCommand cmd_exampleCommand;
@@ -46,7 +46,7 @@ public class RobotContainer {
     sys_controller = new CommandXboxController(Constants.kController.mainControllerPort);
     //subsystems
     sys_candleSubsystem = new CandleSubsystem();
-    sys_arm = new Arm();
+    // sys_arm = new Arm();
     // sys_drivetrain = new Drivetrain();
 
     //Commands
@@ -86,8 +86,8 @@ public class RobotContainer {
     // sys_controller.leftBumper().onTrue(new MoveArm(sys_arm, -0.6)).onFalse(new MoveArm(sys_arm, 0));
     // sys_controller.rightBumper().onTrue(new MoveArm(sys_arm, 0.6)).onFalse(new MoveArm(sys_arm, 0));  
 
-    sys_controller.leftBumper().whileTrue(new MoveArm(sys_arm, -kArm.kSpeed));
-    sys_controller.rightBumper().whileTrue(new MoveArm(sys_arm, kArm.kSpeed));
+    // sys_controller.leftBumper().whileTrue(new MoveArm(sys_arm, -kArm.kSpeed));
+    // sys_controller.rightBumper().whileTrue(new MoveArm(sys_arm, kArm.kSpeed));
 
   }
 
