@@ -32,7 +32,7 @@ import frc.robot.subsystems.CandleSubsystem;
 public class RobotContainer {
   //Subsystems
   private static Drivetrain sys_drivetrain;
-  private final CandleSubsystem sys_candleSubsystem; 
+  // private final CandleSubsystem sys_candleSubsystem; 
 
   //commands
   private static ExampleCommand cmd_exampleCommand;
@@ -46,7 +46,7 @@ public class RobotContainer {
     //Controller
     sys_controller = new CommandXboxController(Constants.kController.mainControllerPort);
     //subsystems
-    sys_candleSubsystem = new CandleSubsystem();
+    // sys_candleSubsystem = new CandleSubsystem();
     sys_drivetrain = new Drivetrain();
 
     //Commands
@@ -66,12 +66,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    sys_controller.povRight()
-        .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.ColorFlow));
-    sys_controller.povLeft()
-        .onTrue(new CandleCommand(sys_candleSubsystem, 0, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Clear));
-    sys_controller.povUp()
-        .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static));
+    // sys_controller.povRight()
+    //     .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.ColorFlow));
+    // sys_controller.povLeft()
+    //     .onTrue(new CandleCommand(sys_candleSubsystem, 0, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Clear));
+    // sys_controller.povUp()
+    //     .onTrue(new CandleCommand(sys_candleSubsystem, .5, Constants.kCANdle.kColors.yellow[0], Constants.kCANdle.kColors.yellow[1], Constants.kCANdle.kColors.yellow[2], AnimationTypes.Static));
   }
 
   /**
