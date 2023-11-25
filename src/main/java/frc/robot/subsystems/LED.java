@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.Color;
@@ -21,23 +22,33 @@ public class LED extends SubsystemBase {
     private static LED instance = null;
 
     private final ShuffleboardTab sb_tab;
+    private final GenericEntry sb_colorState;
 
     private final Color primaryColor;
     private final Color secondaryColor;
-    private int state;
+
+    private kStates state;
+
     private double multivariate;
 
+    private double blinkSpeed        = 0.25;
+    private double sinSpeed          = 0.5;
+    private double rainbowCycleSpeed = 0.5;
+    private double rainbowBlinkSpeed = 0.5;
+
     private LED() {
-        state = kStates.kSinWave.state;
+        state = kStates.kSinWave;
         multivariate = -1;
         primaryColor = Color.kGold;
         secondaryColor = Color.kBlack;
 
         sb_tab = NT4.getInstance("LED_COMMUNICATION_TAB");
-        sb_tab.addInteger("STATE", () -> getState());
+        sb_tab.addInteger("STATE", () -> getState().state);
         sb_tab.addIntegerArray("PRIMARY_COLOR", () -> Convert.intToLong(getPrimaryColor()));
         sb_tab.addIntegerArray("SECONDARY_COLOR", () -> Convert.intToLong(getSecondaryColor()));
         sb_tab.addDouble("MULTIVARIATE", () -> getMultivariate());
+
+        sb_colorState = sb_tab.add("SENSOR_COLOR_STATE", -1).getEntry();
     }
 
     // Get subsystem
@@ -50,21 +61,14 @@ public class LED extends SubsystemBase {
     /**
      * Sets the current LED State
      */
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    /**
-     * Sets the current LED State
-     */
     public void setState(kStates state) {
-        this.state = state.state;
+        this.state = state;
     }
 
     /**
      * Gets the current LED State
      */
-    public int getState() {
+    public kStates getState() {
         return state;
     }
 
@@ -119,9 +123,20 @@ public class LED extends SubsystemBase {
     }
 
     /**
-     * Get the multivariate var
+     * Get the multivariate
      */
     public double getMultivariate() {
+        double var;
+
+        if (state.state == kStates.kBlink.state)          var = blinkSpeed;
+        if (state.state == kStates.kSinWave.state)        var = sinSpeed;
+        if (state.state == kStates.kRainbowCycle.state)   var = rainbowCycleSpeed;
+        if (state.state == kStates.kRainbowBlink.state)   var = rainbowBlinkSpeed;
+        else 
+        var = -1;
+
+        multivariate = var;
+
         return multivariate;
     }
 
@@ -131,10 +146,19 @@ public class LED extends SubsystemBase {
         setSecondaryColor(secondary);
     }
 
+    /**
+     * Gets the REV Color Sensor V3 in from the raspi using I2C
+     */
+    public int getSensorColorState() {
+        return (int) sb_colorState.getInteger(-1);
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        
+        if (getSensorColorState() == 0) changeLED(kStates.kSinFlow, Color.kYellow, Color.kDarkTurquoise);
+        if (getSensorColorState() == 1) changeLED(kStates.kSolid, Color.kPureRed, Color.kRed);
+        if (getSensorColorState() == 2) changeLED(kStates.kSolid, Color.kPureBlue, Color.kBlue);
     }
 
     @Override
